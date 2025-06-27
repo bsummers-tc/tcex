@@ -47,6 +47,9 @@ Documentation = "https://threatconnect.readme.io/docs/overview"
 "Release Notes" = "https://threatconnect.readme.io/docs/release-notes"
 Source = "https://github.com/ThreatConnect-Inc/tcex"
 
+[project.scripts]
+bump-my-version = "bumpversion.cli:cli"
+
 [dependency-groups]
 dev = [
   "bandit>=1.8.3",
@@ -71,7 +74,7 @@ license-files = []
 
 [tool.setuptools.dynamic]
 readme = {file = ["README.md"], content-type = "text/markdown"}
-version = {attr = "tcex.__version__"}
+# version = {attr = "tcex.__version__"}
 
 [tool.setuptools.packages.find]
 exclude = ["tests*", "local-*"]
@@ -180,7 +183,6 @@ ignore = [
   "TC001", # Move application import ... into a type-checking block
   "TC006", # Checks for unquoted type expressions in typing.cast() calls.
   "TID252", # Prefer absolute imports over relative imports from parent modules
-
 ]
 
 # control enabled plugins
@@ -249,3 +251,28 @@ select = [
 # https://docs.astral.sh/ruff/linter/
 
 convention = "google"
+
+[tool.bumpversion]
+allow_dirty = true
+commit = true
+commit_args = "--no-verify"
+current_version = "4.0.10"
+message = "Version updated from {current_version} to {new_version}"
+moveable_tags = [
+  "v{new_major}",
+  "v{new_major}.{new_minor}",
+]
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(\\.(?P<dev>post)\\d+\\.dev\\d+)?"
+pre_commit_hooks = ["uv sync --upgrade", "git add uv.lock"]
+serialize = [
+  "{major}.{minor}.{patch}.{dev}{$PR_NUMBER}.dev{distance_to_latest_tag}",
+  "{major}.{minor}.{patch}",
+]
+tag = true
+tag_name = "{new_version}"
+
+[tool.bumpversion.parts.dev]
+values = ["release", "post"]
+
+[[tool.bumpversion.files]]
+filename = "tcex/__metadata__.py"
