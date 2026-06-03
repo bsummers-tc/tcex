@@ -248,7 +248,7 @@ class BatchCleaner:
         if not config:
             return attribute_value
 
-        max_length = config.get('maxSize')
+        max_length = config.get('max_size')
         if not max_length:
             return attribute_value
 
@@ -277,7 +277,7 @@ class BatchCleaner:
             item: A single group or indicator dictionary.
             attribute_types: Attribute type config dict keyed by name.
             deduplicate: Whether to remove duplicate attributes.
-            truncate: Whether to truncate attributes based on maxSize.
+            truncate: Whether to truncate attributes based on max_size.
             truncated_types: A shared set tracking attribute types that have already
                 been logged as truncated, to avoid duplicate log warnings. If None,
                 warnings are logged for every truncation.
