@@ -18,6 +18,10 @@
           {
             "command": ".claude/scripts/enforce_no_branch_change.sh",
             "type": "command"
+          },
+          {
+            "command": ".claude/scripts/enforce_no_commit.sh",
+            "type": "command"
           }
         ],
         "matcher": "Bash"
@@ -83,7 +87,8 @@
     "deny": [
       "Bash(git checkout:*)",
       "Bash(git switch:*)",
-      "Bash(git worktree add:*)"
+      "Bash(git worktree add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
