@@ -117,7 +117,7 @@ class CaseAttributes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[CaseAttribute]:
         """Return CM objects."""
-        return self.iterate(base_class=CaseAttribute)  # type: ignore
+        return self.iterate(base_class=CaseAttribute)
 
     @property
     def _api_endpoint(self) -> str:

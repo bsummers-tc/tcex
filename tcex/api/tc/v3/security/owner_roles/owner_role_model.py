@@ -57,7 +57,7 @@ class OwnerRoleModel(
         read_only=True,
         title='descriptionOrg',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,

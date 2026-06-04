@@ -179,7 +179,7 @@ def entity_input(
             return value
 
         if isinstance(value, list):
-            _values = []
+            _values: list[Any] = []
             for v in value:
                 _value = _get_value(v)
                 if _value is not None:
@@ -210,7 +210,7 @@ def modify_advanced_settings(input_name) -> Any:
     that this validator should act on to parse the pipe-delimited string into a dictionary
     """
 
-    def _modify_advanced_settings(value: Any, field: ModelField) -> dict[str, str]:
+    def _modify_advanced_settings(value: Any, field: ModelField) -> dict[str, str] | None:
         """Return validator."""
         settings = {}
 

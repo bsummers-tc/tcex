@@ -22,7 +22,7 @@ class OwnerModel(
     _shared_type = PrivateAttr(default=False)
     _staged = PrivateAttr(default=False)
 
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,

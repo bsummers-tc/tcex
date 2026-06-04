@@ -2,7 +2,7 @@
 
 # standard library
 import os
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 
 # third-party
@@ -197,7 +197,7 @@ def gen_object(type_: SnakeString):
 #
 
 
-class ObjectTypes(str, Enum):
+class ObjectTypes(StrEnum):
     """Object Types"""
 
     # shared
@@ -239,7 +239,7 @@ class ObjectTypes(str, Enum):
     victim_attributes = 'victim_attributes'
 
 
-class GenTypes(str, Enum):
+class GenTypes(StrEnum):
     """Object Types"""
 
     all = 'all'

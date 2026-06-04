@@ -58,7 +58,7 @@ def input_model(
             validate_assignment = True
             json_encoders = json_encoders
 
-    return InputModel  # type: ignore[return-value]
+    return InputModel  # ty: ignore[invalid-return-type]
 
 
 class Input:

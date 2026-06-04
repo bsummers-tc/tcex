@@ -55,7 +55,7 @@ class VictimAssetModel(
         read_only=False,
         title='associatedGroups',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -123,7 +123,7 @@ class VictimAssetModel(
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
 

@@ -49,7 +49,7 @@ class IndicatorAttributeModel(
         read_only=False,
         title='default',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -126,21 +126,21 @@ class IndicatorAttributeModel(
     @classmethod
     def _validate_indicator(cls, v):
         if not v:
-            return IndicatorModel()  # type: ignore
+            return IndicatorModel()
         return v
 
     @validator('security_labels', always=True, pre=True)
     @classmethod
     def _validate_security_labels(cls, v):
         if not v:
-            return SecurityLabelsModel()  # type: ignore
+            return SecurityLabelsModel()
         return v
 
     @validator('created_by', always=True, pre=True)
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
 

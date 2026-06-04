@@ -63,3 +63,4 @@ TODO.md
 codeql-tcex
 install.json
 tcex_cache
+tests/test_write_temp_*

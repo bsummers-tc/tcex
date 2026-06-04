@@ -117,7 +117,7 @@ class VictimAttributes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[VictimAttribute]:
         """Return CM objects."""
-        return self.iterate(base_class=VictimAttribute)  # type: ignore
+        return self.iterate(base_class=VictimAttribute)
 
     @property
     def _api_endpoint(self) -> str:

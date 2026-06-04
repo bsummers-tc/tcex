@@ -322,7 +322,7 @@ class TransformABC(ABC):
                     bool,
                     [v for v in self._process_metadata_transform_model(association.value) if v],
                 ):
-                    self.add_associated_group(value)  # type: ignore
+                    self.add_associated_group(value)
             except Exception as ex:
                 ex_msg = f'Associated Group [{i}]'
                 raise TransformException(ex_msg, ex, context=association.dict()) from ex
@@ -600,7 +600,7 @@ class TransformABC(ABC):
         for i, tag in enumerate(tags or [], 1):
             try:
                 for value in filter(bool, self._process_metadata_transform_model(tag.value)):
-                    self.add_tag(name=value)  # type: ignore
+                    self.add_tag(name=value)
             except Exception as ex:
                 ex_msg = f'Tags [{i}]'
                 raise TransformException(ex_msg, ex, context=tag.dict()) from ex

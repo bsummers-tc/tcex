@@ -67,7 +67,7 @@ class ObjectABC(ABC):  # noqa: B024
         if self.model.id:
             return {'filter': 'id', 'value': self.model.id}
 
-        if hasattr(self.model, 'xid') and self.model.xid:  # type: ignore
+        if hasattr(self.model, 'xid') and self.model.xid:
             return {'filter': 'xid', 'value': self.model.xid}  # type: ignore
 
         if self.type_.lower() in ['indicator']:

@@ -120,7 +120,7 @@ class Tags(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Tag]:
         """Return CM objects."""
-        return self.iterate(base_class=Tag)  # type: ignore
+        return self.iterate(base_class=Tag)
 
     @property
     def _api_endpoint(self) -> str:

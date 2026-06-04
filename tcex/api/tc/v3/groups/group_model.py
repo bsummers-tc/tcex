@@ -25,14 +25,6 @@ class GroupModel(
     _shared_type = PrivateAttr(default=False)
     _staged = PrivateAttr(default=False)
 
-    ai_provider: str | None = Field(
-        None,
-        allow_mutation=False,
-        applies_to=['Document', 'Report', 'Event'],
-        description='The provider of the AI generated insights.',
-        read_only=True,
-        title='aiProvider',
-    )
     assignments: 'TaskAssigneesModel' = Field(
         None,
         description=(
@@ -105,6 +97,17 @@ class GroupModel(
         description='The **created by** for the Group.',
         read_only=True,
         title='createdBy',
+    )
+    custom_ai_content: dict | None = Field(
+        None,
+        applies_to=['Document', 'Report', 'Event'],
+        description=(
+            'An AI generated synopsis of the document from external system (no format required and '
+            'markdown supported).'
+        ),
+        methods=['POST', 'PUT'],
+        read_only=False,
+        title='customAiContent',
     )
     date_added: datetime | None = Field(
         None,
@@ -269,7 +272,7 @@ class GroupModel(
         read_only=False,
         title='header',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -279,7 +282,7 @@ class GroupModel(
         None,
         allow_mutation=False,
         applies_to=['Document', 'Report', 'Event'],
-        description='An AI generated synopsis of the document.',
+        description='An AI generated synopsis of the document specifically using CAL json format.',
         read_only=True,
         title='insights',
     )
@@ -504,70 +507,70 @@ class GroupModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @validator('associated_cases', always=True, pre=True)
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @validator('attributes', always=True, pre=True)
     @classmethod
     def _validate_group_attributes(cls, v):
         if not v:
-            return GroupAttributesModel()  # type: ignore
+            return GroupAttributesModel()
         return v
 
     @validator('associated_groups', always=True, pre=True)
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @validator('associated_indicators', always=True, pre=True)
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @validator('security_labels', always=True, pre=True)
     @classmethod
     def _validate_security_labels(cls, v):
         if not v:
-            return SecurityLabelsModel()  # type: ignore
+            return SecurityLabelsModel()
         return v
 
     @validator('tags', always=True, pre=True)
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
     @validator('assignments', always=True, pre=True)
     @classmethod
     def _validate_task_assignees(cls, v):
         if not v:
-            return TaskAssigneesModel()  # type: ignore
+            return TaskAssigneesModel()
         return v
 
     @validator('created_by', always=True, pre=True)
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
     @validator('associated_victim_assets', always=True, pre=True)
     @classmethod
     def _validate_victim_assets(cls, v):
         if not v:
-            return VictimAssetsModel()  # type: ignore
+            return VictimAssetsModel()
         return v
 
 

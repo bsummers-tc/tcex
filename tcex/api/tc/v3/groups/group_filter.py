@@ -23,6 +23,23 @@ class GroupFilter(FilterABC):
         """Return the API endpoint."""
         return ApiEndpoints.GROUPS.value
 
+    def ai_last_retrieval_date(
+        self, operator: Enum, ai_last_retrieval_date: Arrow | datetime | int | str
+    ):
+        """Filter AI Insights Last Retrieval Date based on **aiLastRetrievalDate** keyword.
+
+        Args:
+            operator: The operator enum for the filter.
+            ai_last_retrieval_date: The date and time that the AI insight was retrieved by the
+                external system.
+        """
+        ai_last_retrieval_date = self.util.any_to_datetime(ai_last_retrieval_date).strftime(
+            '%Y-%m-%d %H:%M:%S'
+        )
+        self._tql.add_filter(
+            'aiLastRetrievalDate', operator, ai_last_retrieval_date, TqlType.STRING
+        )
+
     def ai_provider(self, operator: Enum, ai_provider: list | str):
         """Filter AI Provider based on **aiProvider** keyword.
 
@@ -423,6 +440,25 @@ class GroupFilter(FilterABC):
             raise RuntimeError(ex_msg)
 
         self._tql.add_filter('hasCommonGroup', operator, has_common_group, TqlType.INTEGER)
+
+    def has_common_vulnerability(self, operator: Enum, has_common_vulnerability: int | list):
+        """Filter Linked Groups based on **hasCommonVulnerability** keyword.
+
+        Args:
+            operator: The operator enum for the filter.
+            has_common_vulnerability: A nested query for links to Intrusion Sets, Threats and
+                Adversaries.
+        """
+        if isinstance(has_common_vulnerability, list) and operator not in self.list_types:
+            ex_msg = (
+                'Operator must be CONTAINS, NOT_CONTAINS, IN'
+                'or NOT_IN when filtering on a list of values.'
+            )
+            raise RuntimeError(ex_msg)
+
+        self._tql.add_filter(
+            'hasCommonVulnerability', operator, has_common_vulnerability, TqlType.INTEGER
+        )
 
     @property
     def has_group(self):

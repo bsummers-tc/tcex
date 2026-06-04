@@ -54,15 +54,23 @@ class TestOwnerSnippets(TestV3):
     def test_owner_get_by_id(self):
         """Test snippet"""
         # Begin Snippet
-        owner = self.tcex.api.tc.v3.owner(id=3)
-        owner.get()
-        print(owner.model.dict(exclude_none=True))
+        owners = self.tcex.api.tc.v3.owners()
+        owners.filter.owner_name(TqlOperator.EQ, 'TCI')
+        tci_owner_id = None
+        for owner in owners:
+            tci_owner_id = owner.model.id
         # End Snippet
+
+        if tci_owner_id is None:
+            pytest.fail('TCI owner not found')
+
+        owner = self.tcex.api.tc.v3.owner(id=tci_owner_id)
+        owner.get()
 
         # self.v3_helper.tql_generator(owner.model, 'owner')
         # self.v3_helper.assert_generator(owner.model, 'owner')
 
-        assert owner.model.id == 3
+        assert owner.model.id == tci_owner_id
         assert owner.model.name == 'TCI'
         assert owner.model.owner_role == 'Organization Administrator'
         assert owner.model.perm_apps == 'BUILD'

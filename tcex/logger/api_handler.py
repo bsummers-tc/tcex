@@ -73,7 +73,7 @@ class ApiHandler(logging.Handler):
             self._entries = []
             return entries
 
-    def log_to_api(self, entries: list[logging.LogRecord]):
+    def log_to_api(self, entries: list[dict]):
         """Send log events to the ThreatConnect API"""
         if entries:
             try:

@@ -55,7 +55,7 @@ class TagModel(
         read_only=True,
         title='groups',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -150,28 +150,28 @@ class TagModel(
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @validator('groups', always=True, pre=True)
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @validator('indicators', always=True, pre=True)
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @validator('victims', always=True, pre=True)
     @classmethod
     def _validate_victims(cls, v):
         if not v:
-            return VictimsModel()  # type: ignore
+            return VictimsModel()
         return v
 
 

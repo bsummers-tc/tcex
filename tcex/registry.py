@@ -53,7 +53,7 @@ class Registry(Container):
         Args:
             method: A instance method to add to the registry.
         """
-        self._add(method.__name__, method)
+        self._add(method.__name__, method)  # ty: ignore[unresolved-attribute]
 
     def add_factory(self, type_or_name: str | type, factory: Callable, singleton=False):
         """Add a factory for a service.

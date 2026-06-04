@@ -53,7 +53,7 @@ class ResultModel(
         read_only=False,
         title='falsePositive',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,

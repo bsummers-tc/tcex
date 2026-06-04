@@ -5,6 +5,7 @@ import logging
 import ssl
 import time
 from collections.abc import Callable
+from typing import Any
 
 # third-party
 import paho.mqtt.client as mqtt
@@ -50,7 +51,7 @@ class MqttMessageBroker:
         self._on_connect_callbacks: list[Callable] = []
         self._on_disconnect_callbacks: list[Callable] = []
         self._on_log_callbacks: list[Callable] = []
-        self._on_message_callbacks: list[dict[str, Callable | list[str]]] = []
+        self._on_message_callbacks: list[dict[str, Any]] = []
         self._on_publish_callbacks: list[Callable] = []
         self._on_subscribe_callbacks: list[Callable] = []
         self._on_unsubscribe_callbacks: list[Callable] = []

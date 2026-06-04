@@ -118,7 +118,7 @@ class TaskModel(
         read_only=False,
         title='durationType',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -192,28 +192,28 @@ class TaskModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @validator('assignee', always=True, pre=True)
     @classmethod
     def _validate_assignee(cls, v):
         if not v:
-            return AssigneeModel()  # type: ignore
+            return AssigneeModel()
         return v
 
     @validator('parent_case', always=True, pre=True)
     @classmethod
     def _validate_case(cls, v):
         if not v:
-            return CaseModel()  # type: ignore
+            return CaseModel()
         return v
 
     @validator('notes', always=True, pre=True)
     @classmethod
     def _validate_notes(cls, v):
         if not v:
-            return NotesModel()  # type: ignore
+            return NotesModel()
         return v
 
 

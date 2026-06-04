@@ -19,7 +19,7 @@ from tcex.api.tc.ti_transform.transform_builder.v2.load_transform import LoadTra
 def load(
     transform: dict,
     processing_functions: 'ProcessingFunctions',
-) -> IndicatorTransformModel | GroupTransformModel:  # type: ignore
+) -> IndicatorTransformModel | GroupTransformModel:
     """Convert a transform from Transform Builder to one of the tcex transform models."""
 
     match transform:

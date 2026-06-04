@@ -66,7 +66,7 @@ class FilterModel(
         """Return the extra model."""
         extra_data = self.__extra_data()
         # print(self.name, self.type, extra_data)
-        return ExtraModel(**extra_data)  # type: ignore
+        return ExtraModel(**extra_data)
 
     def __extra_data(self) -> dict:
         """Return the extra data."""

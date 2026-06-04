@@ -238,7 +238,7 @@ class ObjectCollectionABC(ABC):  # noqa: B024
             url = response.pop('next', None)
 
             for result in data:
-                yield base_class(session=self._session, **result)  # type: ignore
+                yield base_class(session=self._session, **result)
 
             # break out of pagination if no next url present in results
             if not url:

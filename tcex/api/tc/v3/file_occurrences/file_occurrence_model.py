@@ -35,7 +35,7 @@ class FileOccurrenceModel(
         methods=['POST', 'PUT'],
         title='path',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         title='id',
     )

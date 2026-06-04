@@ -22,7 +22,7 @@ from tcex.util.util import Util
 _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 # disable ssl warning message
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # type: ignore
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def default_too_many_requests_handler(response: Response) -> float:
@@ -355,7 +355,7 @@ class ExternalSession(Session):
             total=retries,
             read=retries,
             connect=retries,
-            backoff_factor=backoff_factor,  # type: ignore
+            backoff_factor=backoff_factor,
             status_forcelist=status_forcelist or [500, 502, 504],
         )
         urls = kwargs.get('urls') or ['https://']

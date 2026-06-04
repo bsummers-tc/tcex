@@ -78,7 +78,7 @@ class GenerateModelABC(GenerateABC, ABC):
                 f'{self.i1}@classmethod',
                 f'{self.i1}def _validate_{type_.snake_case()}(cls, v):',
                 f'{self.i2}if not v:',
-                f'{self.i3}return {typing_type}()  # type: ignore',
+                f'{self.i3}return {typing_type}()',
                 f'{self.i2}return v',
                 '',
             ]
@@ -333,8 +333,6 @@ class GenerateModelABC(GenerateABC, ABC):
 
             # update model
             comment = ''
-            if prop.extra.alias.snake_case() in ['id']:
-                comment = '  # type: ignore'
             _model.append(
                 f"""{self.i1}{prop.extra.alias.snake_case()}: """
                 f"""{prop.extra.typing_type} = Field({comment}"""

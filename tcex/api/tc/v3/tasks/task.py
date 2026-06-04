@@ -191,7 +191,7 @@ class Tasks(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Task]:
         """Return CM objects."""
-        return self.iterate(base_class=Task)  # type: ignore
+        return self.iterate(base_class=Task)
 
     @property
     def _api_endpoint(self) -> str:

@@ -71,9 +71,9 @@ Source = "https://github.com/ThreatConnect-Inc/tcex"
 dev = [
   "bandit>=1.8.3",
   "pre-commit>=4.1.0",
-  "pyright>=1.1.394",
   "pyupgrade>=3.19.1",
   "ruff>=0.9.7",
+  "ty>=0.0.42",
   "typer>=0.15.1",
 ]
 test = [
@@ -147,7 +147,7 @@ filename = "tcex/__metadata__.py"
 [tool.codespell]
 # https://streetsidesoftware.com/vscode-spell-checker/
 ignore-words-list = "ore"
-skip = "*.cspell*,*.history,*local,uv.lock"
+skip = "*.cspell*,*.history,*local,uv.lock,*enforce_us_spelling.sh"
 
 # Configuration for isort import sorter
 [tool.isort]
@@ -162,9 +162,13 @@ known_third_party = ""
 line_length = 100
 profile = "black"
 
-# Configuration for pyright type checker
-[tool.pyright]
-# https://github.com/microsoft/pyright/blob/main/docs/configuration.md#sample-pyprojecttoml-file
+# Configuration for ty type checker
+# https://docs.astral.sh/ty/reference/configuration/
+[tool.ty.environment]
+python-version = "3.11"
+python-platform = "linux"
+
+[tool.ty.src]
 exclude = [
   "**/.history",
   "**/__pycache__",
@@ -172,11 +176,12 @@ exclude = [
   "tcex/api/tc/v2",
   "tests",
 ]
-pythonPlatform = "Linux"
-pythonVersion = "3.11"
-reportIncompatibleMethodOverride = false
-reportIncompatibleVariableOverride = false
-reportPrivateImportUsage = false
+
+[tool.ty.rules]
+# Override checks intentionally disabled (carried over from the prior pyright
+# config: reportIncompatibleMethodOverride / reportIncompatibleVariableOverride).
+invalid-method-override = "ignore"
+invalid-attribute-override = "ignore"
 
 # Configuration for pytest test runner
 [tool.pytest.ini_options]

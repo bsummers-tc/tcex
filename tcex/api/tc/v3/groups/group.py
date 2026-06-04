@@ -47,6 +47,8 @@ class Group(ObjectABC):
             this group.
         attributes (GroupAttributes, kwargs): A list of Attributes corresponding to the Group.
         body (str, kwargs): The email Body.
+        custom_ai_content (object, kwargs): An AI generated synopsis of the document from external
+            system (no format required and markdown supported).
         due_date (str, kwargs): The date and time that the Task is due.
         escalation_date (str, kwargs): The escalation date and time.
         event_date (str, kwargs): The date and time that the incident or event was first created.
@@ -216,7 +218,7 @@ class Group(ObjectABC):
         for group in self._iterate_over_sublist(Groups):  # type: ignore
             if group.model.id == self.model.id:
                 continue
-            yield group  # type: ignore
+            yield group
 
     @property
     def associated_indicators(self) -> Generator['Indicator', None, None]:
@@ -389,7 +391,7 @@ class Groups(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Group]:
         """Return CM objects."""
-        return self.iterate(base_class=Group)  # type: ignore
+        return self.iterate(base_class=Group)
 
     @property
     def _api_endpoint(self) -> str:

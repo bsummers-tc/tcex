@@ -75,7 +75,7 @@ class UserGroups(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[UserGroup]:
         """Return CM objects."""
-        return self.iterate(base_class=UserGroup)  # type: ignore
+        return self.iterate(base_class=UserGroup)
 
     @property
     def _api_endpoint(self) -> str:

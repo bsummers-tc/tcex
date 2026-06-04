@@ -89,7 +89,7 @@ class Categories(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Category]:
         """Return CM objects."""
-        return self.iterate(base_class=Category)  # type: ignore
+        return self.iterate(base_class=Category)
 
     @property
     def _api_endpoint(self) -> str:

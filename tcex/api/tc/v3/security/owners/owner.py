@@ -75,7 +75,7 @@ class Owners(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Owner]:
         """Return CM objects."""
-        return self.iterate(base_class=Owner)  # type: ignore
+        return self.iterate(base_class=Owner)
 
     @property
     def _api_endpoint(self) -> str:

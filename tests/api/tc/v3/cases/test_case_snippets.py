@@ -301,38 +301,52 @@ class TestCaseSnippets(TestV3):
         case.update()
         # End Snippet
 
+    def _user_id_by_username(self, user_name: str) -> int | None:
+        """Resolve a user id by username via the v3 users API (None if not found)."""
+        users = self.tcex.api.tc.v3.users()
+        users.filter.user_name(TqlOperator.EQ, user_name)
+        for user in users:
+            return user.model.id
+        return None
+
     @pytest.mark.parametrize(
-        'user_id_org,user_id_new,user_or_group,assignee_type',
-        [
-            (10, 11, 'User', dict),
-            (10, 11, 'User', AssigneeModel),
-            (10, 11, 'User', AssigneeUserModel),
-            (10, 11, 'Group', AssigneeUserGroupModel),
-            (10, 11, 'User', UserModel),
-            (10, 11, 'Group', UserGroupModel),
-        ]
+        argnames='user_or_group,assignee_type',
+        argvalues=[
+            pytest.param('User', dict, id='user-dict'),
+            pytest.param('User', AssigneeModel, id='user-assignee-model'),
+            pytest.param('User', AssigneeUserModel, id='user-assignee-user-model'),
+            pytest.param('Group', AssigneeUserGroupModel, id='group-assignee-user-group-model'),
+            pytest.param('User', UserModel, id='user-user-model'),
+            pytest.param('Group', UserGroupModel, id='group-user-group-model'),
+        ],
     )
     def test_case_update_with_assignee(
         self,
-        user_id_org: int,
-        user_id_new: int,
         user_or_group: str,
         assignee_type: Any,
-        request: FixtureRequest
+        request: FixtureRequest,
     ):
         """Test case for assignee"""
+        user_id_org = self._user_id_by_username('tmosby')
+        if user_id_org is None:
+            pytest.fail('Could not resolve user id for original assignee "tmosby" in TCI.')
+
+        user_id_new = self._user_id_by_username('rsparkles')
+        if user_id_new is None:
+            pytest.fail('Could not resolve user id for updated assignee "rsparkles" in TCI.')
+
         case = self.v3_helper.create_case(
             name=request.node.name,
-            assignee={'type': 'User', 'data': {'id': user_id_org}}
+            assignee={'type': 'User', 'data': {'id': user_id_org}},
         )
         assert case.model.assignee.data, 'Created case assignee not set'
 
         if assignee_type == AssigneeModel:
             assignee = assignee_type(
-                **{'type': user_or_group, 'data': {'id':user_id_new, 'user_name':'blah'}}
+                **{'type': user_or_group, 'data': {'id': user_id_new, 'user_name': 'blah'}}
             )  # type: ignore[assignment]
         else:
-            assignee = assignee_type(**{'id':user_id_new, 'user_name':'blah'})
+            assignee = assignee_type(**{'id': user_id_new, 'user_name': 'blah'})
         case.stage_assignee(type=user_or_group, data=assignee)
         case.update()
 
