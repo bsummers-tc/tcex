@@ -1,4 +1,4 @@
-#!/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/python
+#!/usr/bin/env python3
 """Audit drift between the live TC server's v3 OPTIONS /<object>/fields and the generated models.
 
 READ-ONLY: this script only issues OPTIONS/GET requests to the configured ThreatConnect server

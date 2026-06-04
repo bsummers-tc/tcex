@@ -14,9 +14,11 @@ is no Docker/DB/frontend stack.
 - **Type checker**: **ty** (Astral) — pyright is no longer used (config in root `[tool.ty]`)
 - **Linter / formatter**: **ruff** (100-char line length)
 
-The workspace root is **always**
-`/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0`. The venv is **always**
-`/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv`.
+The workspace root is the repository root, exposed to the shell as **`$PROJECT_ROOT`** — set per machine
+in `.claude/settings.local.json` → `env` (that file is gitignored, so the absolute path never lands in
+a committed file). The venv is **always** `$PROJECT_ROOT/.venv`. In the command examples below,
+`$PROJECT_ROOT` expands to that absolute root at runtime; in prose, `<root>` denotes the same path. (See
+"Tool Invocation — Absolute Paths Only" for setup and the one sanctioned variable.)
 
 ## Repository & Branching
 
@@ -75,9 +77,9 @@ Most of `tcex/api/tc/v3/**` (the V3 API client: `*_model.py`, object files, `*_f
 - **Regenerate with:**
   ```bash
   # requires .env at the repo root with TC_API_PATH + TC_API_ACCESS_ID + TC_API_SECRET_KEY
-  set -a; . /Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.env; set +a
-  /Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/python \
-    /Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/tcex/api/tc/v3/_gen/_gen.py all
+  set -a; . "$PROJECT_ROOT/.env"; set +a
+  "$PROJECT_ROOT/.venv/bin/python" \
+    "$PROJECT_ROOT/tcex/api/tc/v3/_gen/_gen.py" all
   ```
 - The chosen `TC_API_PATH` server **determines the schema** the models are generated against. Use a
   server whose schema matches the intended target; a stale/behind server will drop or alter fields.
@@ -105,13 +107,13 @@ Dependencies are managed with **uv**. The workspace root holds `uv.lock` and `.v
 uv sync --group dev --group test
 
 # Code quality (always use the venv's absolute binary paths — see Tool Invocation)
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/ruff check .
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/ruff format .
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/ty check
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/pre-commit run --all-files
+"$PROJECT_ROOT/.venv/bin/ruff" check .
+"$PROJECT_ROOT/.venv/bin/ruff" format .
+"$PROJECT_ROOT/.venv/bin/ty" check
+"$PROJECT_ROOT/.venv/bin/pre-commit" run --all-files
 
 # Tests (pytest runs with -n auto via pytest-xdist)
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/pytest
+"$PROJECT_ROOT/.venv/bin/pytest"
 ```
 
 **Managing dependencies:**
@@ -135,11 +137,22 @@ uv sync --group dev --group test
 
 ## Tool Invocation — Absolute Paths Only
 
-**Rule:** every tool invocation MUST use the full absolute path of the binary, and paths must be
-**hard-coded** — never resolved dynamically. The workspace root is always
-`/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0` and the venv is always
-`<root>/.venv`. Do **not** resolve them via `git rev-parse`, `pwd`, `realpath`, `readlink`, `$HOME`,
-or `source .venv/bin/activate`.
+**Rule:** every tool invocation MUST resolve to a full absolute binary path, and that path must be
+either a literal (system utilities — see below) or rooted at the **`$PROJECT_ROOT`** environment variable
+(venv/project paths). `$PROJECT_ROOT` is a **static** value injected into the shell by
+`.claude/settings.local.json` → `env`; it is the **one** sanctioned variable for the repo root and is
+*not* dynamic resolution. Do **not** resolve the root via `git rev-parse`, `pwd`, `realpath`,
+`readlink`, `$HOME`, command substitution `$(…)`/backticks, or `source .venv/bin/activate` — those are
+blocked. Pinned system-utility paths (`/opt/homebrew/…`, `/usr/bin/…`) stay literal.
+
+**Per-machine setup (one time):** add your absolute repo root to `.claude/settings.local.json`
+(gitignored) so `$PROJECT_ROOT` is populated in the Bash environment — **restart Claude Code afterward**
+for it to take effect:
+
+```jsonc
+// .claude/settings.local.json
+{ "env": { "PROJECT_ROOT": "/absolute/path/to/your/tcex-4.0" } }
+```
 
 Three `PreToolUse` hooks (in `.claude/scripts/`) enforce this — treat them as hard rules:
 
@@ -155,10 +168,10 @@ Three `PreToolUse` hooks (in `.claude/scripts/`) enforce this — treat them as 
 
 ```bash
 # CORRECT
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/python -c "..."
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/pytest tests/util
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/ruff check tcex/util/code_operation.py
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/ty check
+"$PROJECT_ROOT/.venv/bin/python" -c "..."
+"$PROJECT_ROOT/.venv/bin/pytest" tests/util
+"$PROJECT_ROOT/.venv/bin/ruff" check tcex/util/code_operation.py
+"$PROJECT_ROOT/.venv/bin/ty" check
 
 # WRONG — re-prompts for every variant / blocked by hooks
 cd <root> && .venv/bin/pytest
@@ -251,9 +264,9 @@ specific test id and a justification, e.g. `subprocess.run(cmd)  # nosec B603 �
 - Redis-backed code is tested with **fakeredis**; structural comparisons use **deepdiff**.
 
 ```bash
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/pytest                 # all
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/pytest tests/util      # one area
-/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.venv/bin/pytest -k "test_name"  # by pattern
+"$PROJECT_ROOT/.venv/bin/pytest"                 # all
+"$PROJECT_ROOT/.venv/bin/pytest" tests/util      # one area
+"$PROJECT_ROOT/.venv/bin/pytest" -k "test_name"  # by pattern
 ```
 
 ## Agents

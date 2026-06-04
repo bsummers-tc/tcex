@@ -43,6 +43,7 @@ nbproject
 # Claude Exclusions
 #-------------------------------------------------
 .claude/plans/*
+.claude/settings.local.json
 
 #-------------------------------------------------
 # Module Specific Exclusions

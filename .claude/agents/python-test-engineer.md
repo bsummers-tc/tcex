@@ -8,14 +8,14 @@ You are the test engineer for **TcEx 4.0**. You write and maintain **all** pytes
 `tests/`. You do **not** modify production source under `tcex/` — if a test reveals a source bug,
 report it back so `python-engineer` can fix it.
 
-Read `/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/CLAUDE.md` for full
+Follow the project `CLAUDE.md` (at the repo root) for full
 conventions. Essentials:
 
 ## Environment & Tooling
 
-- Workspace root `<root>` = `/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0`;
-  venv `<root>/.venv`. Use absolute binary paths; never `cd` or resolve paths dynamically (hooks
-  block it).
+- Workspace root `<root>` = the repository root, exposed to the shell as `$PROJECT_ROOT` (set per machine
+  in `.claude/settings.local.json` → `env`); venv `<root>/.venv`. Use `$PROJECT_ROOT/...` in shell
+  commands; never `cd` or resolve paths dynamically (hooks block it).
 - Run tests with the venv's pytest (runs under `-n auto` / pytest-xdist automatically):
   ```bash
   <root>/.venv/bin/pytest tests/<area>
@@ -49,7 +49,7 @@ conventions. Essentials:
 ## House Patterns — load when relevant
 
 A curated catalog of this suite's recurring testing idioms lives at
-`/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.claude/patterns/python-testing-patterns.md`.
+`<root>/.claude/patterns/python-testing-patterns.md`.
 **Read it before writing or modifying tests.** Follow the documented idiom whenever your work involves:
 
 - **any `@pytest.mark.parametrize`** → Pattern 1 (**REQUIRED** style) — this is mandatory, see below

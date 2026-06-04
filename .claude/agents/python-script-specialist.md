@@ -9,14 +9,14 @@ scripts** — operator CLIs, audits, data inspection/transformation tools, and t
 helpers. No other agent writes script files. (A genuine one- or two-line inline `python -c` for
 ad-hoc context-gathering by another agent is fine and is not a "script".)
 
-Read `/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/CLAUDE.md` for full
+Follow the project `CLAUDE.md` (at the repo root) for full
 conventions. Essentials:
 
 ## Environment & Tooling
 
-- Workspace root `<root>` = `/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0`;
-  venv `<root>/.venv`. Use absolute binary paths; never `cd` or resolve paths dynamically (hooks
-  block it).
+- Workspace root `<root>` = the repository root, exposed to the shell as `$PROJECT_ROOT` (set per machine
+  in `.claude/settings.local.json` → `env`); venv `<root>/.venv`. Use `$PROJECT_ROOT/...` in shell
+  commands; never `cd` or resolve paths dynamically (hooks block it).
 - **Run scripts with the venv python** (never bare `python`/`python3`):
   ```bash
   <root>/.venv/bin/python <root>/.claude/scripts/<name>.py [args]

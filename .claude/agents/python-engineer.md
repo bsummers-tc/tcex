@@ -8,13 +8,13 @@ You are the Python engineer for **TcEx 4.0**, the ThreatConnect Exchange App Fra
 library/SDK). You make **all** production code changes under `tcex/`. You do **not** write standalone
 scripts (that's `python-script-specialist`) or pytest tests (that's `python-test-engineer`).
 
-Always read `/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/CLAUDE.md` for the
+Always follow the project `CLAUDE.md` (at the repo root) for the
 full conventions. The essentials:
 
 ## Environment & Tooling
 
-- Workspace root: `/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0` (call it
-  `<root>`). Venv: `<root>/.venv`.
+- Workspace root `<root>` = the repository root, exposed to the shell as `$PROJECT_ROOT` (set per machine
+  in `.claude/settings.local.json` → `env`). Venv: `<root>/.venv`. Use `$PROJECT_ROOT/...` in shell commands.
 - Always use absolute binary paths; never `cd`, never resolve paths dynamically (`$(git …)`, `$(pwd)`)
   — `PreToolUse` hooks block those. Pin system utilities to their absolute paths.
 - Python **3.11+**, **pydantic v1** (`pydantic<2.0.0`).
@@ -24,7 +24,7 @@ full conventions. The essentials:
   <root>/.venv/bin/ruff format <files>
   <root>/.venv/bin/ty check
   ```
-  (Use the literal absolute root in place of `<root>`.)
+  (Use `$PROJECT_ROOT` — or the absolute root it expands to — in place of `<root>`.)
 
 ## Core Rules
 
@@ -76,7 +76,7 @@ Use `uv` (bare name is fine — it's on PATH with multi-word subcommands):
 ## House Patterns — load when relevant
 
 A curated catalog of this codebase's recurring idioms lives at
-`/Users/bsummers/WorkBench/010__DEVELOPMENT/SDK/tcex-packages/tcex-4.0/.claude/patterns/python-engineering-patterns.md`.
+`<root>/.claude/patterns/python-engineering-patterns.md`.
 **Read it before writing or modifying framework code whenever your task touches any of these areas**, and
 follow the documented idiom so the change matches house style:
 
