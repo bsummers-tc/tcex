@@ -102,7 +102,7 @@ class IntelRequirementModel(
         read_only=False,
         title='earliestTimestamp',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -200,63 +200,63 @@ class IntelRequirementModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @validator('associated_cases', always=True, pre=True)
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @validator('associated_groups', always=True, pre=True)
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @validator('associated_indicators', always=True, pre=True)
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @validator('category', 'subtype', always=True, pre=True)
     @classmethod
     def _validate_intel_req_type(cls, v):
         if not v:
-            return IntelReqTypeModel()  # type: ignore
+            return IntelReqTypeModel()
         return v
 
     @validator('keyword_sections', always=True, pre=True)
     @classmethod
     def _validate_keyword_section(cls, v):
         if not v:
-            return list['KeywordSectionModel']()  # type: ignore
+            return list['KeywordSectionModel']()
         return v
 
     @validator('tags', always=True, pre=True)
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
     @validator('created_by', always=True, pre=True)
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
     @validator('associated_victim_assets', always=True, pre=True)
     @classmethod
     def _validate_victim_assets(cls, v):
         if not v:
-            return VictimAssetsModel()  # type: ignore
+            return VictimAssetsModel()
         return v
 
 

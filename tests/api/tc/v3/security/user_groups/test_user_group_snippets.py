@@ -48,5 +48,11 @@ class TestUserGroupSnippets(TestV3):
         # Manual runs of this test case return a runtime of 9 seconds when not cached and
         # less than 0.1 seconds when cached, so the cache is providing a significant performance
         # improvement.
+
+        # clear cache
+        # from tcex.pleb.cached_property_filesystem import cached_property_filesystem
+
+        # cached_property_filesystem._reset()
+
         data = self.tcex.api.tc.v3.user_groups()
         assert name in data.cached_dict, f'User group name {name!r} not found in cache'

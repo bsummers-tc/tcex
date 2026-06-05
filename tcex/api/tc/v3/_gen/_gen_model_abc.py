@@ -78,14 +78,14 @@ class GenerateModelABC(GenerateABC, ABC):
                 f'{self.i1}@classmethod',
                 f'{self.i1}def _validate_{type_.snake_case()}(cls, v):',
                 f'{self.i2}if not v:',
-                f'{self.i3}return {typing_type}()  # type: ignore',
+                f'{self.i3}return {typing_type}()',
                 f'{self.i2}return v',
                 '',
             ]
         )
 
     # TODO: [low] bsummers - research combining this method with parent method
-    def _format_description(self, description: str, length: int) -> str:
+    def _format_model_description(self, description: str, length: int) -> str:
         """Format description for field."""
         # fix descriptions coming from core API endpoint
         if description[-1] not in ('.', '?', '!'):
@@ -333,8 +333,6 @@ class GenerateModelABC(GenerateABC, ABC):
 
             # update model
             comment = ''
-            if prop.extra.alias.snake_case() in ['id']:
-                comment = '  # type: ignore'
             _model.append(
                 f"""{self.i1}{prop.extra.alias.snake_case()}: """
                 f"""{prop.extra.typing_type} = Field({comment}"""
@@ -363,7 +361,7 @@ class GenerateModelABC(GenerateABC, ABC):
 
             # description - Use the TC provided description
             # if available, otherwise use a default format.
-            field_description = self._format_description(
+            field_description = self._format_model_description(
                 (
                     prop.description
                     or (

@@ -302,7 +302,7 @@ class WebhookTriggerService(CommonServiceTrigger):
         if callable(self.webhook_marshall_event_callback):
             try:
                 # call callback method
-                callback_response: dict | None = self.webhook_marshall_event_callback(  # type: ignore
+                callback_response: dict | None = self.webhook_marshall_event_callback(
                     body=body,
                     headers=message.get('headers'),
                     request_key=request_key,

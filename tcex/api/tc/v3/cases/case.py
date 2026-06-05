@@ -122,7 +122,7 @@ class Case(ObjectABC):
         for case in self._iterate_over_sublist(Cases):  # type: ignore
             if case.model.id == self.model.id:
                 continue
-            yield case  # type: ignore
+            yield case
 
     @property
     def associated_groups(self) -> Generator['Group', None, None]:
@@ -352,7 +352,7 @@ class Cases(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Case]:
         """Return CM objects."""
-        return self.iterate(base_class=Case)  # type: ignore
+        return self.iterate(base_class=Case)
 
     @property
     def _api_endpoint(self) -> str:

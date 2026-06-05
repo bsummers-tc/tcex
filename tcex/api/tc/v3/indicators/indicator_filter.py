@@ -803,6 +803,22 @@ class IndicatorFilter(FilterABC):
             'riskIqReputationScore', operator, risk_iq_reputation_score, TqlType.INTEGER
         )
 
+    def same_name_as(self, operator: Enum, same_name_as: int | list):
+        """Filter Same Name As based on **sameNameAs** keyword.
+
+        Args:
+            operator: The operator enum for the filter.
+            same_name_as: Finds indicators with the same name as the given ID.
+        """
+        if isinstance(same_name_as, list) and operator not in self.list_types:
+            ex_msg = (
+                'Operator must be CONTAINS, NOT_CONTAINS, IN'
+                'or NOT_IN when filtering on a list of values.'
+            )
+            raise RuntimeError(ex_msg)
+
+        self._tql.add_filter('sameNameAs', operator, same_name_as, TqlType.INTEGER)
+
     def security_label(self, operator: Enum, security_label: list | str):
         """Filter Security Label based on **securityLabel** keyword.
 

@@ -86,7 +86,7 @@ class Benchmark:
             if delta > datetime.timedelta(
                 microseconds=self.microseconds, milliseconds=self.milliseconds, seconds=self.seconds
             ):
-                _logger.debug(f'function: "{wrapped.__name__}", benchmark_time: "{delta}"')
+                _logger.debug(f'function: "{wrapped.__name__}", benchmark_time: "{delta}"')  # ty: ignore[unresolved-attribute]
             return data
 
         return benchmark()

@@ -88,7 +88,7 @@ class AttributeTypes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[AttributeType]:
         """Return CM objects."""
-        return self.iterate(base_class=AttributeType)  # type: ignore
+        return self.iterate(base_class=AttributeType)
 
     @property
     def _api_endpoint(self) -> str:

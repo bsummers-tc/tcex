@@ -87,7 +87,7 @@ class ExclusionLists(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[ExclusionList]:
         """Return CM objects."""
-        return self.iterate(base_class=ExclusionList)  # type: ignore
+        return self.iterate(base_class=ExclusionList)
 
     @property
     def _api_endpoint(self) -> str:

@@ -43,7 +43,7 @@ class ExclusionListModel(
         read_only=False,
         title='fixedValues',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,

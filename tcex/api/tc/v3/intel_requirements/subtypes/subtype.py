@@ -86,7 +86,7 @@ class Subtypes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Subtype]:
         """Return CM objects."""
-        return self.iterate(base_class=Subtype)  # type: ignore
+        return self.iterate(base_class=Subtype)
 
     @property
     def _api_endpoint(self) -> str:

@@ -16,6 +16,7 @@
 -   APP-5136 - [Playbook] Fixed the error messages in playbook.create when checking array types
 -   APP-5150 - [Pleb] Added new custom JMESPath functions
 -   APP-5183 - [Services] Include system CA bundle in message broker connection
+-   APP-5334 - [API] Fixed issue with batch cleaner
 
 ## 4.0.10
 

@@ -135,7 +135,7 @@ class ArtifactModel(
         read_only=False,
         title='hashCode',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -216,42 +216,42 @@ class ArtifactModel(
     @classmethod
     def _validate_artifact_type(cls, v):
         if not v:
-            return ArtifactTypeModel()  # type: ignore
+            return ArtifactTypeModel()
         return v
 
     @validator('parent_case', always=True, pre=True)
     @classmethod
     def _validate_case(cls, v):
         if not v:
-            return CaseModel()  # type: ignore
+            return CaseModel()
         return v
 
     @validator('associated_groups', always=True, pre=True)
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @validator('associated_indicators', always=True, pre=True)
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @validator('notes', always=True, pre=True)
     @classmethod
     def _validate_notes(cls, v):
         if not v:
-            return NotesModel()  # type: ignore
+            return NotesModel()
         return v
 
     @validator('task', always=True, pre=True)
     @classmethod
     def _validate_task(cls, v):
         if not v:
-            return TaskModel()  # type: ignore
+            return TaskModel()
         return v
 
 

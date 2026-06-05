@@ -35,10 +35,21 @@ class TestUserSnippets(TestV3):
     def test_user_get_by_id(self):
         """Test snippet"""
         # Begin Snippet
-        user = self.tcex.api.tc.v3.user(id=15)
-        user.get()
-        print(user.model.dict(exclude_none=True))
+        users = self.tcex.api.tc.v3.users()
+        users.filter.user_name(TqlOperator.EQ, 'rsparkles')
+        user_id = None
+        for user in users:
+            print(user.model.dict(exclude_none=True))
+            user_id = user.model.id
         # End Snippet
+
+        if user_id is None:
+            pytest.fail('User rsparkles not found')
+
+        user = self.tcex.api.tc.v3.user(id=user_id)
+        user.get()
+        assert user.model.id == user_id
+        assert user.model.user_name == 'rsparkles'
 
     @pytest.mark.parametrize(
         'name',

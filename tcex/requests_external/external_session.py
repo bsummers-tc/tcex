@@ -22,7 +22,7 @@ from tcex.util.util import Util
 _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 # disable ssl warning message
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # type: ignore
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def default_too_many_requests_handler(response: Response) -> float:
@@ -123,7 +123,9 @@ class ExternalSession(Session):
         base_url: The base URL for all requests.
     """
 
-    __attrs__: ClassVar = [
+    # ClassVar satisfies ruff RUF012 (mutable class attr); parent requests.Session.__attrs__
+    # is an unannotated list, so the annotation must not surface as an override mismatch.
+    __attrs__: ClassVar = [  # ty: ignore[invalid-attribute-override]
         'adapters',
         'auth',
         'cert',
@@ -262,7 +264,9 @@ class ExternalSession(Session):
         if self._custom_adapter:
             self._custom_adapter.rate_limit_handler = rate_limit_handler
 
-    def request(self, method: str, url: str, **kwargs) -> object:
+    # override funnels all params through **kwargs for base-url prefixing + 429 retry handling,
+    # so it intentionally does not mirror Session.request's positional signature.
+    def request(self, method: str, url: str, **kwargs) -> Response:  # ty: ignore[invalid-method-override]
         """Override request method disabling verify on token renewal if disabled on session.
 
         Args:
@@ -355,7 +359,7 @@ class ExternalSession(Session):
             total=retries,
             read=retries,
             connect=retries,
-            backoff_factor=backoff_factor,  # type: ignore
+            backoff_factor=backoff_factor,
             status_forcelist=status_forcelist or [500, 502, 504],
         )
         urls = kwargs.get('urls') or ['https://']

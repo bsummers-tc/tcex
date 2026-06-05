@@ -4,6 +4,7 @@
 import os
 from abc import ABC
 from textwrap import TextWrapper
+from typing import Any
 
 # first-party
 from tcex.util import Util
@@ -26,7 +27,7 @@ class GenerateABC(ABC):  # noqa: B024
         self.i4 = ' ' * 16  # indent level 4
         self.i5 = ' ' * 20  # indent level 5
         self.messages = []
-        self.requirements = {}
+        self.requirements: dict[str, list[Any]] = {}
         self.util = Util()
 
     @staticmethod
@@ -116,7 +117,7 @@ class GenerateABC(ABC):  # noqa: B024
             _imports = []  # temp store for imports so they can be sorted
             for lib in libs:
                 if isinstance(lib, dict):
-                    imports = ', '.join(sorted(lib.get('imports')))  # type: ignore
+                    imports = ', '.join(sorted(lib.get('imports')))
                     _imports.append(f'{indent}from {lib.get("module")} import {imports}{comment}')
                 elif isinstance(lib, str):
                     _imports.append(f'{indent}{lib}{comment}')
@@ -126,7 +127,7 @@ class GenerateABC(ABC):  # noqa: B024
         _libs.append('')  # add newline
 
         # This is the last part of the requirements generated.
-        return '\n'.join(_libs)  # type: ignore
+        return '\n'.join(_libs)
 
     def tap(self, type_: str):
         """Return the TcEx Api Path."""

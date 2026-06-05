@@ -162,7 +162,7 @@ class V3ModelABC(BaseModel, ABC, allow_population_by_field_name=True):
             return False
 
         # STAGED RULE: Any nested object provided by developer should be INCLUDED.
-        if model._staged is True:  # noqa: SLF001
+        if model._staged is True:
             return True
 
         # POST RULE: When method is POST all nested object should be INCLUDED.
@@ -195,7 +195,7 @@ class V3ModelABC(BaseModel, ABC, allow_population_by_field_name=True):
             # * Added on instantiation
             # * Added with stage_xxx() method
 
-            if model._cm_type is True:  # noqa: SLF001
+            if model._cm_type is True:
                 # RULE: Short-Circuit Nested CM Types
                 # Nested CM types are updated through their direct endpoints and should
                 #    never be INCLUDED when updating the parent. For new nested CM types
@@ -203,7 +203,7 @@ class V3ModelABC(BaseModel, ABC, allow_population_by_field_name=True):
                 #    before this rule.
                 return False
 
-            if model._shared_type is True:  # noqa: SLF001
+            if model._shared_type is True:
                 # RULE: Nested Tags
                 # Nested tags on a parent CM type behave as REPLACE mode and need to be
                 #     INCLUDED to prevent being removed.
@@ -269,7 +269,7 @@ class V3ModelABC(BaseModel, ABC, allow_population_by_field_name=True):
         # * tag -> delete (support id or name only)
         if (  # noqa: SIM103
             mode == 'delete'
-            and (model._shared_type is True or self._associated_type is True)  # noqa: SLF001
+            and (model._shared_type is True or self._associated_type is True)
             and (model.id is not None or model.name is not None)  # type: ignore
         ):
             # RULE: Nested Shared Object w/ DELETE mode (TAGS, SECURITY LABELS)
@@ -378,34 +378,34 @@ class V3ModelABC(BaseModel, ABC, allow_population_by_field_name=True):
                 value: Self  # type: ignore
                 # Handle nested model that should be included in the body (non-read-only).
 
-                if hasattr(value, 'data') and isinstance(value.data, list):  # type: ignore
+                if hasattr(value, 'data') and isinstance(value.data, list):
                     # Handle nested object types where the "data" field contains an array of model.
-                    _data = self._process_nested_data_array(method, mode, value)  # type: ignore
+                    _data = self._process_nested_data_array(method, mode, value)
                     if _data:
                         _body.setdefault(key, {})['data'] = _data
 
                         # value as a model can be ArtifactTypeModel, ArtifactModel, etc.
-                        if value._mode_support:  # type: ignore  # noqa: SLF001
+                        if value._mode_support:  # noqa: SLF001
                             # Use the default mode defined in the model ("append") or the
                             # mode passed into this method as an override.
-                            _body.setdefault(key, {})['mode'] = mode or value.mode  # type: ignore
+                            _body.setdefault(key, {})['mode'] = mode or value.mode
 
                 elif hasattr(value, 'data'):
                     # Handle "non-standard" condition for Assignee where the nested "data"
                     # field contains an object instead of an Array.
-                    _data = self._process_nested_data_object(method, mode, value)  # type: ignore
+                    _data = self._process_nested_data_object(method, mode, value)
                     if _data:
                         _body.setdefault(key, {})['data'] = _data
 
                         # Handle the extra "type" field that is only on Assignee objects.
                         if hasattr(value, 'type'):
-                            _body.setdefault(key, {})['type'] = value.type  # type: ignore
+                            _body.setdefault(key, {})['type'] = value.type
 
-                elif self._calculate_nested_inclusion(method, mode, value):  # type: ignore
+                elif self._calculate_nested_inclusion(method, mode, value):
                     # Handle nested object types where field contains an object.
                     # (e.g., CaseModel -> workflowTemplate field)
                     # if method == 'POST' or value.id is None or value.updated is True:
-                    _data = value.gen_body(method, mode, nested=True)  # type: ignore
+                    _data = value.gen_body(method, mode, nested=True)
                     if _data:
                         _body[key] = _data
 
@@ -414,7 +414,7 @@ class V3ModelABC(BaseModel, ABC, allow_population_by_field_name=True):
                 if value and isinstance(value, list) and isinstance(value[0], BaseModel):
                     value: list[Self]
                     _data = []
-                    for model in value:  # type: ignore
+                    for model in value:
                         if self._calculate_nested_inclusion(method, mode, model):
                             data = model.gen_body(method, mode, nested=True)
                             if data:

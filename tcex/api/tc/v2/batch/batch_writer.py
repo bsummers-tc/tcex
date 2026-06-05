@@ -879,6 +879,36 @@ class BatchWriter:
             identifier = hashlib.sha256(identifier.encode('utf-8')).hexdigest()
         return hashlib.sha256(identifier.encode('utf-8')).hexdigest()
 
+    @staticmethod
+    def generate_xid2(identifier: list | str | None = None) -> str:
+        """Generate a reproducible xid using UUID5 from the provided identifier(s).
+
+        Use this method when the raw identifier value cannot be used directly as an xid — for
+        example, when the same numeric or short id could appear across multiple object types in
+        the same batch (e.g., two different groups both having an id of ``123``), or when the
+        source system uses integer/short-string ids that are not globally unique on their own.
+
+        Common use cases:
+        - Source ids that are numeric or otherwise short (e.g., ``123``, ``"abc"``).
+        - Ids that are unique within a single type but may collide across types in the same batch.
+        - Composite keys built from multiple fields (pass as a list to combine them).
+        - Any situation where the raw id must be namespaced or scoped to avoid collisions.
+
+        .. Note::  If the incoming identifier is already a UUID (v4 or otherwise), this method
+                   should generally **not** be used — pass the UUID directly as the xid instead,
+                   as wrapping it in UUID5 provides no collision-avoidance benefit and breaks
+                   the 1-to-1 mapping between source id and xid.
+
+        Args:
+            identifier: Value(s) to be used to make a unique and reproducible xid.
+
+        """
+        if identifier is None:
+            identifier = str(uuid.uuid4())
+        elif isinstance(identifier, list):
+            identifier = '-'.join([str(i) for i in identifier])
+        return str(uuid.uuid5(uuid.NAMESPACE_X500, identifier))
+
     def group(self, group_type: str, name: str, **kwargs) -> GroupType | dict:
         """Add Group data to Batch.
 

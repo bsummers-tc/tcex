@@ -121,7 +121,7 @@ class WorkflowEvents(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[WorkflowEvent]:
         """Return CM objects."""
-        return self.iterate(base_class=WorkflowEvent)  # type: ignore
+        return self.iterate(base_class=WorkflowEvent)
 
     @property
     def _api_endpoint(self) -> str:

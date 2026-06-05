@@ -2,7 +2,7 @@
 
 # standard library
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 # third-party
 from pydantic import BaseModel, Field, PrivateAttr
@@ -13,7 +13,7 @@ from tcex.api.tc.v3.v3_model_abc import V3ModelABC
 from tcex.util import Util
 
 
-class AssigneeTypes(str, Enum):
+class AssigneeTypes(StrEnum):
     """Enum for install_json.params[].exposePlaybookAs"""
 
     Escalate = 'Escalate'
@@ -52,7 +52,7 @@ class TaskAssigneeModel(
         read_only=True,
         title='dateAdded',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,

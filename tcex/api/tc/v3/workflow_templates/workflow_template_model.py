@@ -78,7 +78,7 @@ class WorkflowTemplateModel(
         read_only=False,
         title='description',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,
@@ -117,14 +117,14 @@ class WorkflowTemplateModel(
     @classmethod
     def _validate_assignee(cls, v):
         if not v:
-            return AssigneeModel()  # type: ignore
+            return AssigneeModel()
         return v
 
     @validator('cases', always=True, pre=True)
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
 

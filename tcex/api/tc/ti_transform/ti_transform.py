@@ -155,7 +155,7 @@ class TiTransform(TransformABC):
                 {'summary': summary, 'indicatorType': indicator_type}
             )
 
-    def add_associated_group(self, ref_1: str):
+    def add_associated_group(self, group_xid: str):
         """Add an associated group.
 
         {
@@ -166,33 +166,33 @@ class TiTransform(TransformABC):
         if not self.separate_batch_associations:
             # process type specific data
             if isinstance(self.transform, GroupTransformModel):
-                self.transformed_item.setdefault('associatedGroupXid', []).append(ref_1)
+                self.transformed_item.setdefault('associatedGroupXid', []).append(group_xid)
             elif isinstance(self.transform, IndicatorTransformModel):
-                associated_group = {'groupXid': ref_1}
+                associated_group = {'groupXid': group_xid}
                 self.transformed_item.setdefault('associatedGroups', []).append(associated_group)
         elif isinstance(self.transform, GroupTransformModel):
             self.transformed_item.setdefault('association', []).append(
                 {
-                    'ref_1': ref_1,
+                    'ref_1': group_xid,
                     'ref_2': self.transformed_item['xid'],
                 }
             )
             self.log.trace(
                 'Added associated group with xid: %s to %s',
-                ref_1,
+                group_xid,
                 self.transformed_item['xid'],
             )
         elif isinstance(self.transform, IndicatorTransformModel):
             self.transformed_item.setdefault('association', []).append(
                 {
-                    'ref_1': ref_1,
+                    'ref_1': group_xid,
                     'ref_2': self.transformed_item['summary'],
                     'type_2': self.transformed_item['type'],
                 }
             )
             self.log.trace(
                 'Added associated group with xid: %s to %s',
-                ref_1,
+                group_xid,
                 self.transformed_item['summary'],
             )
 
@@ -265,7 +265,7 @@ class TiTransform(TransformABC):
         """
         self.adhoc_indicators.append(indicator_data)
 
-    def add_metadata(self, key: str, value: str):
+    def add_metadata(self, key: str, value: str | int):
         """Add name to the transformed item."""
         if all([key, value]):
             self.transformed_item[key] = value

@@ -40,6 +40,12 @@ nbproject
 *.vim
 
 #-------------------------------------------------
+# Claude Exclusions
+#-------------------------------------------------
+.claude/plans/*
+.claude/settings.local.json
+
+#-------------------------------------------------
 # Module Specific Exclusions
 #-------------------------------------------------
 __main__.py
@@ -63,3 +69,6 @@ TODO.md
 codeql-tcex
 install.json
 tcex_cache
+tests/test_write_temp_*
+tests/groups-*.db
+tests/indicators-*.db

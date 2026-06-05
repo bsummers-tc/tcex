@@ -29,7 +29,7 @@ class SubtypeModel(
         read_only=False,
         title='description',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         description='The ID of the item.',
         read_only=True,

@@ -14,7 +14,7 @@ from tcex.input.field_type.sensitive import Sensitive
 from tcex.input.field_type.string import String
 from tcex.input.field_type.tc_entity import TCEntity
 
-KeyValue = ForwardRef('KeyValue')  # type: ignore
+KeyValue = ForwardRef('KeyValue')
 
 
 class KeyValue(BaseModel):
@@ -23,8 +23,8 @@ class KeyValue(BaseModel):
     key: str
     type: str | None
     value: (
-        list[KeyValue]  # SELF-REFERENCE
-        | KeyValue  # SELF-REFERENCE
+        list[KeyValue]  # SELF-REFERENCE  # ty: ignore[invalid-type-form]
+        | KeyValue  # SELF-REFERENCE  # ty: ignore[invalid-type-form]
         | list[TCEntity]
         | TCEntity
         | list[String]

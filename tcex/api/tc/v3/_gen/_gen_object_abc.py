@@ -159,11 +159,7 @@ class GenerateObjectABC(GenerateABC, ABC):
                     f'Iterator[{self.type_.singular().pascal_case()}]:'
                 ),
                 f'{self.i2}"""Return CM objects."""',
-                (
-                    f'{self.i2}return self.iterate(base_class='
-                    f'{self.type_.singular().pascal_case()})'
-                    '  # type: ignore'
-                ),
+                (f'{self.i2}return self.iterate(base_class={self.type_.singular().pascal_case()})'),
                 '',
                 '',
             ]
@@ -529,14 +525,14 @@ class GenerateObjectABC(GenerateABC, ABC):
             f'{self.i2}if all(isinstance(item, ({model_class} | ObjectABC)) for item in data):'
             f'{self.i3}transformed_data = data',
             f'{self.i2}elif all(isinstance(item, dict) for item in data):'
-            f'{self.i3}transformed_data = [{model_class}(**d) for d in data]',
+            f'{self.i3}transformed_data = [{model_class}(**d) for d in data]  # type: ignore',
             f'{self.i2}else:',
             f'{self.i3}ex_msg = "Invalid data to replace_{model_type.singular()}"',
             f'{self.i3}raise ValueError(ex_msg)',
             '',
             '',
             f'{self.i2}for item in transformed_data:',
-            f'{self.i3}item._staged = True  # noqa: SLF001',
+            f'{self.i3}item._staged = True  # type: ignore  # noqa: SLF001',
             '',
             f'{self.i2}self.model.{model_reference} = transformed_data  # type: ignore',
             '',
@@ -723,7 +719,7 @@ class GenerateObjectABC(GenerateABC, ABC):
                 # f'{self.i2}self.model.assignee._staged = True
                 # f'{self.i2}self.model.assignee.type = type',
                 # pylance shows a warning on type here, but it in not handling inheritance properly.
-                # f'{self.i2}self.model.assignee.data = data  # type: ignore',
+                # f'{self.i2}self.model.assignee.data = data',
                 f'{self.i2}self.model.assignee.data._staged = True  # type: ignore  # noqa: SLF001',
                 '',
                 '',
@@ -830,7 +826,7 @@ class GenerateObjectABC(GenerateABC, ABC):
             _code.extend(
                 [
                     f'{self.i4}continue',
-                    f'{self.i3}yield {type_.singular()}  # type: ignore',
+                    f'{self.i3}yield {type_.singular()}',
                 ]
             )
         else:
@@ -1173,6 +1169,6 @@ class GenerateObjectABC(GenerateABC, ABC):
     ):
         """Return the requirements code."""
         class_string = ', '.join(classes)
-        self.requirements[from_].append(  # type: ignore
+        self.requirements[from_].append(
             f'from {self.tap(type_)}.{type_.plural()}.{filename} import {class_string}'
         )

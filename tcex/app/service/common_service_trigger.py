@@ -57,7 +57,7 @@ class CommonServiceTrigger(CommonService):
         """
         if self.model.tcex_testing_context is not None:
             _context_tracker: list[str] = json.loads(
-                self.redis_client.hget(self.model.tcex_testing_context, '_context_tracker') or '[]'  # type: ignore
+                self.redis_client.hget(self.model.tcex_testing_context, '_context_tracker') or '[]'
             )
             _context_tracker.append(session_id)
             self.redis_client.hset(
@@ -65,7 +65,7 @@ class CommonServiceTrigger(CommonService):
                 '_context_tracker',
                 json.dumps(_context_tracker),
             )
-            self.redis_client.hset(session_id, '_trigger_id', trigger_id)  # type: ignore
+            self.redis_client.hset(session_id, '_trigger_id', trigger_id)
 
             # log
             self.log.info(

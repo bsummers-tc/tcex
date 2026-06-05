@@ -74,7 +74,7 @@ class EditChoice(str):
         valid_values = [] if param is None else param.valid_values
         _valid_values = ti_utils.resolve_variables(valid_values)
         for vv in _valid_values:
-            if vv.lower() == value.lower():
+            if vv is not None and vv.lower() == value.lower():
                 value = vv
                 break
         else:

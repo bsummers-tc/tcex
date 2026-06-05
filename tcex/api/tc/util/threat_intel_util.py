@@ -197,7 +197,7 @@ class ThreatIntelUtil:
         """
         return list(self.indicator_types_data.keys())
 
-    def resolve_variables(self, inputs: list[str]) -> list[str]:
+    def resolve_variables(self, inputs: list[str]) -> list[str | None]:
         """Resolve all of the provided inputs if appropriate.
 
         Args:

@@ -204,7 +204,7 @@ class Victims(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Victim]:
         """Return CM objects."""
-        return self.iterate(base_class=Victim)  # type: ignore
+        return self.iterate(base_class=Victim)
 
     @property
     def _api_endpoint(self) -> str:
