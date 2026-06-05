@@ -5,7 +5,7 @@ import logging
 import urllib.parse
 from abc import ABC
 from collections.abc import Generator
-from typing import Self
+from typing import Self, cast
 
 from requests import Response, Session
 from requests.exceptions import ProxyError, RetryError
@@ -64,8 +64,9 @@ class ObjectABC(ABC):  # noqa: B024
         if self.model.id:
             return {'filter': 'id', 'value': self.model.id}
 
-        if hasattr(self.model, 'xid') and self.model.xid:  # type: ignore
-            return {'filter': 'xid', 'value': self.model.xid}  # type: ignore
+        if hasattr(self.model, 'xid') and self.model.xid:
+            # xid is only defined on some model subtypes (resolved as object here) but is a string
+            return {'filter': 'xid', 'value': cast('str', self.model.xid)}
 
         if self.type_.lower() in ['indicator']:
             return {'filter': 'summary', 'value': self.model.summary}  # type: ignore

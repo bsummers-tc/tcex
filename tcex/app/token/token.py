@@ -29,7 +29,7 @@ def retry_session(retries=3, backoff_factor=0.8, status_forcelist=(500, 502, 504
         total=retries,
         read=retries,
         connect=retries,
-        backoff_factor=backoff_factor,  # type: ignore
+        backoff_factor=backoff_factor,
         status_forcelist=status_forcelist,
     )
     # mount all https requests

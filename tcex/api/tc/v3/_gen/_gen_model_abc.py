@@ -2,6 +2,7 @@
 
 from abc import ABC
 from textwrap import TextWrapper
+from typing import Any
 
 from tcex.api.tc.v3._gen._gen_abc import GenerateABC
 from tcex.util.string_operation import SnakeString
@@ -14,8 +15,9 @@ class GenerateModelABC(GenerateABC, ABC):
         """Initialize instance properties."""
         super().__init__(type_)
 
-        # properties
-        self.requirements = {
+        # properties; buckets hold heterogeneous entries (plain import strings vs. module/imports
+        # dicts), so type the values as list[Any] for the dynamically-built accumulator.
+        self.requirements: dict[str, list[Any]] = {
             'standard library': ['from __future__ import annotations'],
             'third-party': [
                 {'module': 'pydantic', 'imports': ['BaseModel', 'Field']},
@@ -26,7 +28,7 @@ class GenerateModelABC(GenerateABC, ABC):
             ],
             'first-party-forward-reference': [],
         }
-        self.validators = {}
+        self.validators: dict[str, dict[str, Any]] = {}
 
     def _add_module_class(self, from_: str, module: str, class_: str):
         """Add pydantic validator only when required."""
@@ -62,14 +64,14 @@ class GenerateModelABC(GenerateABC, ABC):
                 f'{self.i1}@classmethod',
                 f'{self.i1}def _validate_{type_.snake_case()}(cls, v):',
                 f'{self.i2}if not v:',
-                f'{self.i3}return {typing_type}()  # type: ignore',
+                f'{self.i3}return {typing_type}()',
                 f'{self.i2}return v',
                 '',
             ]
         )
 
     # TODO: [low] bsummers - research combining this method with parent method
-    def _format_description(self, description: str, length: int) -> str:
+    def _format_model_description(self, description: str, length: int) -> str:
         """Format description for field."""
         # fix descriptions coming from core API endpoint
         if description[-1] not in ('.', '?', '!'):
@@ -311,12 +313,8 @@ class GenerateModelABC(GenerateABC, ABC):
                 self.validators[prop.type]['typing_type'] = prop.extra.typing_type
 
             # update model
-            comment = ''
-            if prop.extra.alias.snake_case() in ['id']:
-                comment = '  # type: ignore'
             _model.append(
-                f'{self.i1}{prop.extra.alias.snake_case()}: '
-                f'{prop.extra.typing_type} = Field({comment}'
+                f'{self.i1}{prop.extra.alias.snake_case()}: {prop.extra.typing_type} = Field('
             )
             _model.append(f'{self.i2}default=None,')  # the default value
 
@@ -326,7 +324,7 @@ class GenerateModelABC(GenerateABC, ABC):
 
             # description - Use the TC provided description
             # if available, otherwise use a default format.
-            field_description = self._format_description(
+            field_description = self._format_model_description(
                 (
                     prop.description
                     or (

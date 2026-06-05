@@ -22,9 +22,9 @@ SHA1: str = 'b' * 40
 SHA256: str = 'c' * 64
 
 ATTRIBUTE_CONFIG: dict[str, dict[str, int]] = {
-    'Description': {'maxSize': 500},
-    'Source': {'maxSize': 20},
-    'Events': {'maxSize': 100},
+    'Description': {'max_size': 500},
+    'Source': {'max_size': 20},
+    'Events': {'max_size': 100},
 }
 
 
@@ -273,7 +273,7 @@ def test_auto_truncate(value: str, max_size: int, expected: str) -> None:
         max_size: The maximum allowed length.
         expected: The expected result after truncation.
     """
-    config = {'TestAttr': {'maxSize': max_size}}
+    config = {'TestAttr': {'max_size': max_size}}
     assert BatchCleaner.auto_truncate_attribute('TestAttr', value, config) == expected
 
 
@@ -281,10 +281,10 @@ def test_auto_truncate(value: str, max_size: int, expected: str) -> None:
     'config',
     [
         {},
-        {'TestAttr': {'description': 'no maxSize key here'}},
-        {'TestAttr': {'maxSize': 0}},
+        {'TestAttr': {'description': 'no max_size key here'}},
+        {'TestAttr': {'max_size': 0}},
     ],
-    ids=['type-not-in-config', 'config-missing-maxSize', 'maxSize-is-zero'],
+    ids=['type-not-in-config', 'config-missing-max_size', 'max_size-is-zero'],
 )
 def test_auto_truncate_returns_original_when_not_applicable(config: dict) -> None:
     """Verify truncation is skipped when config is missing or inapplicable.
@@ -297,7 +297,7 @@ def test_auto_truncate_returns_original_when_not_applicable(config: dict) -> Non
 
 def test_auto_truncate_returns_non_string_as_is() -> None:
     """Verify non-string attribute values are returned unchanged."""
-    config = {'TestAttr': {'maxSize': 5}}
+    config = {'TestAttr': {'max_size': 5}}
     assert BatchCleaner.auto_truncate_attribute('TestAttr', 12345, config) == 12345  # type: ignore[arg-type]
 
 
@@ -425,7 +425,7 @@ def test_clean_attributes_skips_invalid_entries(bad_attribute: dict[str, Any]) -
 # ---------------------------------------------------------------------------
 
 def test_clean_attributes_truncates_long_values() -> None:
-    """Verify attribute values exceeding maxSize are truncated with ellipsis."""
+    """Verify attribute values exceeding max_size are truncated with ellipsis."""
     item = {'attribute': make_attributes(('Source', 'a' * 50))}
     BatchCleaner.clean_attributes(item, ATTRIBUTE_CONFIG, deduplicate=False, truncate=True)
     assert len(item['attribute'][0]['value']) == 20
@@ -439,7 +439,7 @@ def test_clean_attributes_deduplicates_after_truncation() -> None:
         {'type': 'Source', 'value': 'common prefix - BBBB'},
     ]}
     BatchCleaner.clean_attributes(
-        item, {'Source': {'maxSize': 15}}, deduplicate=True, truncate=True,
+        item, {'Source': {'max_size': 15}}, deduplicate=True, truncate=True,
     )
     assert len(item['attribute']) == 1
 

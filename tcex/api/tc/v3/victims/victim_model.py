@@ -59,7 +59,7 @@ class VictimModel(
         title='description',
         validate_default=True,
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -140,35 +140,35 @@ class VictimModel(
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @field_validator('security_labels', mode='before')
     @classmethod
     def _validate_security_labels(cls, v):
         if not v:
-            return SecurityLabelsModel()  # type: ignore
+            return SecurityLabelsModel()
         return v
 
     @field_validator('tags', mode='before')
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
     @field_validator('assets', mode='before')
     @classmethod
     def _validate_victim_assets(cls, v):
         if not v:
-            return VictimAssetsModel()  # type: ignore
+            return VictimAssetsModel()
         return v
 
     @field_validator('attributes', mode='before')
     @classmethod
     def _validate_victim_attributes(cls, v):
         if not v:
-            return VictimAttributesModel()  # type: ignore
+            return VictimAttributesModel()
         return v
 
 

@@ -73,7 +73,7 @@ class SystemRoles(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[SystemRole]:
         """Return CM objects."""
-        return self.iterate(base_class=SystemRole)  # type: ignore
+        return self.iterate(base_class=SystemRole)
 
     @property
     def _api_endpoint(self) -> str:

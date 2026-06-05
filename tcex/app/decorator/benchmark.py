@@ -2,7 +2,8 @@
 
 import datetime
 import logging
-from typing import TYPE_CHECKING, Any
+from types import FunctionType
+from typing import TYPE_CHECKING, Any, cast
 
 import wrapt
 
@@ -61,7 +62,7 @@ class Benchmark:
         Returns:
             function: The custom decorator function.
         """
-        # using wrapped args to support typing hints in PyRight
+        # using wrapped args to support type-checker typing hints
         wrapped: Callable = wrapped_args[0]
         args: list = wrapped_args[2] if len(wrapped_args) > 1 else []
         kwargs: dict = wrapped_args[3] if len(wrapped_args) > 2 else {}  # noqa: PLR2004
@@ -82,7 +83,9 @@ class Benchmark:
             if delta > datetime.timedelta(
                 microseconds=self.microseconds, milliseconds=self.milliseconds, seconds=self.seconds
             ):
-                _logger.debug(f'function: "{wrapped.__name__}", benchmark_time: "{delta}"')
+                # wrapt always wraps a function/method, which has __name__; cast for ty
+                function_name = cast('FunctionType', wrapped).__name__
+                _logger.debug(f'function: "{function_name}", benchmark_time: "{delta}"')
             return data
 
         return benchmark()

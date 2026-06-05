@@ -2,7 +2,8 @@
 
 import functools
 from collections.abc import Callable, Container
-from typing import TYPE_CHECKING, Any, TypeVar
+from types import FunctionType
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from redis import Redis
 
@@ -51,7 +52,9 @@ class Registry(Container):
         Args:
             method: A instance method to add to the registry.
         """
-        self._add(method.__name__, method)
+        # a Callable is not guaranteed a __name__, but the methods registered here always are
+        # functions/bound methods, which do; cast so ty resolves the attribute.
+        self._add(cast('FunctionType', method).__name__, method)
 
     def add_factory(self, type_or_name: str | type, factory: Callable, singleton=False):
         """Add a factory for a service.

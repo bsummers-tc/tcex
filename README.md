@@ -24,9 +24,9 @@ The ThreatConnect&trade; TcEx App Framework provides functionality for writing T
 
  * bandit (https://pypi.org/project/bandit/)
  * pre-commit (https://pypi.org/project/pre-commit/)
- * pyright (https://pypi.org/project/pyright/)
  * pyupgrade (https://pypi.org/project/pyupgrade/)
  * ruff (https://pypi.org/project/ruff/)
+ * ty (https://pypi.org/project/ty/)
  * typer (https://pypi.python.org/pypi/typer/)
 
 ### Test Requirements

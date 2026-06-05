@@ -851,6 +851,10 @@ class TestV3:
                 # linkedGroups -> provides all the groups/buckets linked to common group:
                 #     share the same name and type
 
+                if 'affectedProducts' in names:
+                    # new in 8.0.2 with no input on what maps to this field
+                    continue
+
                 if 'aliases' in names:
                     names = ['commonGroup']
 

@@ -20,7 +20,7 @@ class AssigneeModel(V3ModelABC):
     )
 
     # Exclude inherited 'id' field
-    id: int | None = Field(default=None, exclude=True)  # type: ignore
+    id: int | None = Field(default=None, exclude=True)
 
     type: str | None = Field(
         None,

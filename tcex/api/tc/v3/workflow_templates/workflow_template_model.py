@@ -78,7 +78,7 @@ class WorkflowTemplateModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -117,14 +117,14 @@ class WorkflowTemplateModel(
     @classmethod
     def _validate_assignee(cls, v):
         if not v:
-            return AssigneeModel()  # type: ignore
+            return AssigneeModel()
         return v
 
     @field_validator('cases', mode='before')
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
 

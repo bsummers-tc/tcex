@@ -1,7 +1,5 @@
 """TcEx Framework Module"""
 
-from typing import ForwardRef
-
 from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic_core.core_schema import ValidationInfo
 
@@ -11,25 +9,15 @@ from tcex.input.field_type.sensitive import Sensitive
 from tcex.input.field_type.string import String
 from tcex.input.field_type.tc_entity import TCEntity
 
-KeyValue = ForwardRef('KeyValue')  # type: ignore
-
 
 class KeyValue(BaseModel):
     """Model for KeyValue Input."""
 
     key: str
     type: str | None = None
-    value: (
-        list[KeyValue]  # SELF-REFERENCE
-        | KeyValue  # SELF-REFERENCE
-        | list[TCEntity]
-        | TCEntity
-        | list[String]
-        | String
-        | list[Binary]
-        | Binary
-        | Sensitive
-    )
+    # KeyValue is self-referential; quote the whole union (not just the self-reference) so the
+    # recursive forward ref is a single string annotation, resolved by model_rebuild() below.
+    value: 'list[KeyValue] | KeyValue | list[TCEntity] | TCEntity | list[String] | String | list[Binary] | Binary | Sensitive'  # noqa: E501
 
     @field_validator('key')
     @classmethod

@@ -100,7 +100,7 @@ class GroupAttributes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[GroupAttribute]:
         """Return CM objects."""
-        return self.iterate(base_class=GroupAttribute)  # type: ignore
+        return self.iterate(base_class=GroupAttribute)
 
     @property
     def _api_endpoint(self) -> str:

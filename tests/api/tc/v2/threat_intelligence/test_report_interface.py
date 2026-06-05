@@ -4,6 +4,7 @@
 import os
 from datetime import datetime, timedelta
 from random import randint
+from time import sleep
 from typing import cast
 
 
@@ -241,6 +242,8 @@ class TestReportGroups(TestThreatIntelligence):
         # update file content (coverage)
         r = helper_ti.file_content(self.file_content)
         assert r.status_code == 200
+
+        sleep(1)
 
         r = helper_ti.download()
         assert r.status_code == 200

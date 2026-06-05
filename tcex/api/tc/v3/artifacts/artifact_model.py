@@ -132,7 +132,7 @@ class ArtifactModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -213,42 +213,42 @@ class ArtifactModel(
     @classmethod
     def _validate_artifact_type(cls, v):
         if not v:
-            return ArtifactTypeModel()  # type: ignore
+            return ArtifactTypeModel()
         return v
 
     @field_validator('parent_case', mode='before')
     @classmethod
     def _validate_case(cls, v):
         if not v:
-            return CaseModel()  # type: ignore
+            return CaseModel()
         return v
 
     @field_validator('associated_groups', mode='before')
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @field_validator('associated_indicators', mode='before')
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @field_validator('notes', mode='before')
     @classmethod
     def _validate_notes(cls, v):
         if not v:
-            return NotesModel()  # type: ignore
+            return NotesModel()
         return v
 
     @field_validator('task', mode='before')
     @classmethod
     def _validate_task(cls, v):
         if not v:
-            return TaskModel()  # type: ignore
+            return TaskModel()
         return v
 
 

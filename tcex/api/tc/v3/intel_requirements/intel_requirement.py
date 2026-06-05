@@ -160,13 +160,13 @@ class IntelRequirement(ObjectABC):
         if all(isinstance(item, (KeywordSectionModel | ObjectABC)) for item in data):
             transformed_data = data
         elif all(isinstance(item, dict) for item in data):
-            transformed_data = [KeywordSectionModel(**d) for d in data]
+            transformed_data = [KeywordSectionModel(**d) for d in data]  # ty: ignore[invalid-argument-type]
         else:
             ex_msg = 'Invalid data to replace_keyword_section'
             raise ValueError(ex_msg)
 
         for item in transformed_data:
-            item._staged = True  # noqa: SLF001
+            item._staged = True  # ty: ignore[unresolved-attribute]  # noqa: SLF001
 
         self.model.keyword_sections = transformed_data  # type: ignore
 
@@ -210,7 +210,7 @@ class IntelRequirements(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[IntelRequirement]:
         """Return CM objects."""
-        return self.iterate(base_class=IntelRequirement)  # type: ignore
+        return self.iterate(base_class=IntelRequirement)
 
     @property
     def _api_endpoint(self) -> str:

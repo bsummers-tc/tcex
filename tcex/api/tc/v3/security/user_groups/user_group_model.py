@@ -29,7 +29,7 @@ class UserGroupModel(
         title='description',
         validate_default=True,
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -54,7 +54,7 @@ class UserGroupModel(
     @classmethod
     def _validate_users(cls, v):
         if not v:
-            return UsersModel()  # type: ignore
+            return UsersModel()
         return v
 
 

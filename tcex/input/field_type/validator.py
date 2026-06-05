@@ -154,7 +154,7 @@ def entity_input(
 
     def _entity_input(
         value: BaseModel | list[BaseModel] | str | list[str], info: ValidationInfo
-    ) -> list[str] | str:
+    ) -> BaseModel | list[Any] | str | None:
         """Return value from String or TCEntity."""
         field_name = info.field_name or '--unknown--'
 
@@ -178,26 +178,27 @@ def entity_input(
 
             return value
 
+        # the working result can hold a mix of models/strings (or a single value); keep it widely
+        # typed so the heterogeneous accumulator does not conflict with the parameter type.
+        result: Any
         if isinstance(value, list):
-            _values = []
+            _values: list[Any] = []
             for v in value:
                 _value = _get_value(v)
                 if _value is not None:
                     _values.append(_value)
-            value = _values
+            result = _values
         else:
-            # TODO: [high] fix this type ignore
-            value = _get_value(value)  # type: ignore
+            result = _get_value(value)
 
         # TODO: @bsummers-tc fix this
         # if info.config.allow_none is False and value is None:
         #     raise InvalidInput(field_name=field.name, error='None value is not allowed.')
 
-        if allow_empty is False and value in ['', []]:
+        if allow_empty is False and result in ['', []]:
             raise InvalidInput(field_name=field_name, error='Empty value is not allowed.')
 
-        # TODO: [high] fix this type ignore
-        return value  # type: ignore
+        return result
 
     # TODO: [high] fix this type ignore
     return _entity_input  # type: ignore

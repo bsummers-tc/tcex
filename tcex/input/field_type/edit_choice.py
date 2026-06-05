@@ -121,7 +121,7 @@ class EditChoice(str):
     @classmethod
     def __get_pydantic_core_schema__(
         cls, source: type[Any], handler: GetCoreSchemaHandler
-    ) -> core_schema.AfterValidatorFunctionSchema:
+    ) -> core_schema.CoreSchema:
         """Configure Pydantic core schema for EditChoice validation.
 
         This method is part of Pydantic v2's core schema system and defines how
@@ -305,6 +305,9 @@ class EditChoice(str):
         valid_values = [] if param is None else param.valid_values
         _valid_values = ti_utils.resolve_variables(valid_values)
         for vv in _valid_values:
+            # resolve_variables may yield None entries for empty inputs; skip them
+            if vv is None:
+                continue
             if vv.lower() == value.lower():
                 value = vv
                 break

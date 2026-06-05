@@ -58,7 +58,7 @@ class VictimAssetModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -134,7 +134,7 @@ class VictimAssetModel(
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
 

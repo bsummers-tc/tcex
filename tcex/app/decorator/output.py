@@ -53,7 +53,7 @@ class Output:
             kwargs: The dictionary of keyword arguments
                 supplied when the decorated function was called.
         """
-        # using wrapped args to support typing hints in PyRight
+        # using wrapped args to support type-checker typing hints
         wrapped: Callable = wrapped_args[0]
         app: Any = wrapped_args[1]
         args: list = wrapped_args[2] if len(wrapped_args) > 1 else []

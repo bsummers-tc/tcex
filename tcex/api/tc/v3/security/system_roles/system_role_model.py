@@ -43,7 +43,7 @@ class SystemRoleModel(
         title='displayed',
         validate_default=True,
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',

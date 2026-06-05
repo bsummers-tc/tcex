@@ -66,7 +66,7 @@ class WorkflowEventModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -126,21 +126,21 @@ class WorkflowEventModel(
     @classmethod
     def _validate_case(cls, v):
         if not v:
-            return CaseModel()  # type: ignore
+            return CaseModel()
         return v
 
     @field_validator('notes', mode='before')
     @classmethod
     def _validate_notes(cls, v):
         if not v:
-            return NotesModel()  # type: ignore
+            return NotesModel()
         return v
 
     @field_validator('user', mode='before')
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
 
