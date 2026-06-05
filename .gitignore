@@ -70,3 +70,5 @@ codeql-tcex
 install.json
 tcex_cache
 tests/test_write_temp_*
+tests/groups-*.db
+tests/indicators-*.db
