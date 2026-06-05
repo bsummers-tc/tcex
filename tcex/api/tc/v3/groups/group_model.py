@@ -24,14 +24,6 @@ class GroupModel(
     _shared_type: bool = PrivateAttr(default=False)
     _staged: bool = PrivateAttr(default=False)
 
-    ai_provider: str | None = Field(
-        default=None,
-        description='The provider of the AI generated insights.',
-        frozen=True,
-        title='aiProvider',
-        validate_default=True,
-        json_schema_extra={'applies_to': ['Document', 'Report', 'Event']},
-    )
     assignments: TaskAssigneesModel | None = Field(
         default=None,
         description=(
@@ -103,6 +95,19 @@ class GroupModel(
         frozen=True,
         title='createdBy',
         validate_default=True,
+    )
+    custom_ai_content: dict | None = Field(
+        default=None,
+        description=(
+            'An AI generated synopsis of the document from external system (no format required and '
+            'markdown supported).'
+        ),
+        title='customAiContent',
+        validate_default=True,
+        json_schema_extra={
+            'applies_to': ['Document', 'Report', 'Event'],
+            'methods': ['POST', 'PUT'],
+        },
     )
     date_added: datetime | None = Field(
         default=None,
@@ -261,7 +266,7 @@ class GroupModel(
         validate_default=True,
         json_schema_extra={'applies_to': ['Email'], 'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -269,7 +274,7 @@ class GroupModel(
     )
     insights: dict | None = Field(
         default=None,
-        description='An AI generated synopsis of the document.',
+        description='An AI generated synopsis of the document specifically using CAL json format.',
         frozen=True,
         title='insights',
         validate_default=True,
@@ -492,70 +497,70 @@ class GroupModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @field_validator('associated_cases', mode='before')
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @field_validator('attributes', mode='before')
     @classmethod
     def _validate_group_attributes(cls, v):
         if not v:
-            return GroupAttributesModel()  # type: ignore
+            return GroupAttributesModel()
         return v
 
     @field_validator('associated_groups', mode='before')
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @field_validator('associated_indicators', mode='before')
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @field_validator('security_labels', mode='before')
     @classmethod
     def _validate_security_labels(cls, v):
         if not v:
-            return SecurityLabelsModel()  # type: ignore
+            return SecurityLabelsModel()
         return v
 
     @field_validator('tags', mode='before')
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
     @field_validator('assignments', mode='before')
     @classmethod
     def _validate_task_assignees(cls, v):
         if not v:
-            return TaskAssigneesModel()  # type: ignore
+            return TaskAssigneesModel()
         return v
 
     @field_validator('created_by', mode='before')
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
     @field_validator('associated_victim_assets', mode='before')
     @classmethod
     def _validate_victim_assets(cls, v):
         if not v:
-            return VictimAssetsModel()  # type: ignore
+            return VictimAssetsModel()
         return v
 
 

@@ -39,12 +39,9 @@ class TestAttributeTypeSnippets(TestV3):
     @pytest.mark.parametrize(
         'name',
         [
-            ('WebMoney ID'),
-            ('Yara Detection Rule'),
-            ('Whois Record'),
-            ('Sandbox Score'),
-            ('Target'),
-            ('Criticality'),
+            ('Description'),
+            ('Additional Analysis and Context'),
+            ('Adversary Motivation Type'),
         ],
     )
     def test_cached_dict(self, name: str):

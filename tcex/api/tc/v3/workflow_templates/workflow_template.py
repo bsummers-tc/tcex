@@ -82,7 +82,7 @@ class WorkflowTemplates(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[WorkflowTemplate]:
         """Return CM objects."""
-        return self.iterate(base_class=WorkflowTemplate)  # type: ignore
+        return self.iterate(base_class=WorkflowTemplate)
 
     @property
     def _api_endpoint(self) -> str:

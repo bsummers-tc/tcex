@@ -73,7 +73,7 @@ class NoteModel(
         title='edited',
         validate_default=True,
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -147,28 +147,28 @@ class NoteModel(
     @classmethod
     def _validate_artifact(cls, v):
         if not v:
-            return ArtifactModel()  # type: ignore
+            return ArtifactModel()
         return v
 
     @field_validator('parent_case', mode='before')
     @classmethod
     def _validate_case(cls, v):
         if not v:
-            return CaseModel()  # type: ignore
+            return CaseModel()
         return v
 
     @field_validator('task', mode='before')
     @classmethod
     def _validate_task(cls, v):
         if not v:
-            return TaskModel()  # type: ignore
+            return TaskModel()
         return v
 
     @field_validator('workflow_event', mode='before')
     @classmethod
     def _validate_workflow_event(cls, v):
         if not v:
-            return WorkflowEventModel()  # type: ignore
+            return WorkflowEventModel()
         return v
 
 

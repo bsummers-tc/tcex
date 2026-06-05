@@ -115,7 +115,7 @@ class TaskModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -189,28 +189,28 @@ class TaskModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @field_validator('assignee', mode='before')
     @classmethod
     def _validate_assignee(cls, v):
         if not v:
-            return AssigneeModel()  # type: ignore
+            return AssigneeModel()
         return v
 
     @field_validator('parent_case', mode='before')
     @classmethod
     def _validate_case(cls, v):
         if not v:
-            return CaseModel()  # type: ignore
+            return CaseModel()
         return v
 
     @field_validator('notes', mode='before')
     @classmethod
     def _validate_notes(cls, v):
         if not v:
-            return NotesModel()  # type: ignore
+            return NotesModel()
         return v
 
 

@@ -101,7 +101,7 @@ class IntelRequirementModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -199,63 +199,63 @@ class IntelRequirementModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @field_validator('associated_cases', mode='before')
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @field_validator('associated_groups', mode='before')
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @field_validator('associated_indicators', mode='before')
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @field_validator('category', 'subtype', mode='before')
     @classmethod
     def _validate_intel_req_type(cls, v):
         if not v:
-            return IntelReqTypeModel()  # type: ignore
+            return IntelReqTypeModel()
         return v
 
     @field_validator('keyword_sections', mode='before')
     @classmethod
     def _validate_keyword_section(cls, v):
         if not v:
-            return list['KeywordSectionModel | None']()  # type: ignore
+            return list['KeywordSectionModel | None']()
         return v
 
     @field_validator('tags', mode='before')
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
     @field_validator('created_by', mode='before')
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
     @field_validator('associated_victim_assets', mode='before')
     @classmethod
     def _validate_victim_assets(cls, v):
         if not v:
-            return VictimAssetsModel()  # type: ignore
+            return VictimAssetsModel()
         return v
 
 

@@ -15,7 +15,7 @@ class IntelReqTypeModel(
 ):
     """Model Definition"""
 
-    id: int | None = Field(  # pyright: ignore [reportGeneralTypeIssues]
+    id: int | None = Field(
         None,
         json_schema_extra={'methods': ['POST', 'PUT'], 'read_only': True},
         description='The ID of the item.',

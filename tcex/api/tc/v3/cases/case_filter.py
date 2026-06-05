@@ -435,7 +435,7 @@ class CaseFilter(FilterABC):
         self._tql.add_filter('lastUpdated', operator, last_updated, TqlType.STRING)
 
     def missing_artifact_count(self, operator: Enum, missing_artifact_count: int | list):
-        """Filter Missing Artifact Count For Tasks based on **missingArtifactCount** keyword.
+        """Filter Missing Artifact Count based on **missingArtifactCount** keyword.
 
         Args:
             operator: The operator enum for the filter.

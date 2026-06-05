@@ -239,7 +239,7 @@ class IndicatorModel(
             'methods': ['POST'],
         },
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -514,63 +514,63 @@ class IndicatorModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @field_validator('associated_cases', mode='before')
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @field_validator('file_actions', mode='before')
     @classmethod
     def _validate_file_actions(cls, v):
         if not v:
-            return FileActionsModel()  # type: ignore
+            return FileActionsModel()
         return v
 
     @field_validator('file_occurrences', mode='before')
     @classmethod
     def _validate_file_occurrences(cls, v):
         if not v:
-            return FileOccurrencesModel()  # type: ignore
+            return FileOccurrencesModel()
         return v
 
     @field_validator('associated_groups', mode='before')
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @field_validator('attributes', mode='before')
     @classmethod
     def _validate_indicator_attributes(cls, v):
         if not v:
-            return IndicatorAttributesModel()  # type: ignore
+            return IndicatorAttributesModel()
         return v
 
     @field_validator('associated_indicators', 'custom_associations', mode='before')
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @field_validator('security_labels', mode='before')
     @classmethod
     def _validate_security_labels(cls, v):
         if not v:
-            return SecurityLabelsModel()  # type: ignore
+            return SecurityLabelsModel()
         return v
 
     @field_validator('tags', mode='before')
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
 

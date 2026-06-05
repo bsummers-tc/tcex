@@ -32,7 +32,7 @@ class FileOccurrenceModel(
         json_schema_extra={'methods': ['POST', 'PUT']},
         title='path',
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         None,
         title='id',
     )

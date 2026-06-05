@@ -48,7 +48,7 @@ class IndicatorAttributeModel(
         validate_default=True,
         json_schema_extra={'methods': ['POST', 'PUT']},
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -125,21 +125,21 @@ class IndicatorAttributeModel(
     @classmethod
     def _validate_indicator(cls, v):
         if not v:
-            return IndicatorModel()  # type: ignore
+            return IndicatorModel()
         return v
 
     @field_validator('security_labels', mode='before')
     @classmethod
     def _validate_security_labels(cls, v):
         if not v:
-            return SecurityLabelsModel()  # type: ignore
+            return SecurityLabelsModel()
         return v
 
     @field_validator('created_by', mode='before')
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
 

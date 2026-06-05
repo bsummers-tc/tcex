@@ -194,14 +194,14 @@ class ThreatIntelUtil:
         """
         return list(self.indicator_types_data.keys())
 
-    def resolve_variables(self, inputs: list[str]) -> list[str]:
+    def resolve_variables(self, inputs: list[str]) -> list[str | None]:
         """Resolve all of the provided inputs if appropriate.
 
         Args:
             inputs: A list of strings to resolve if string matches a entry in the
             "resolved_variables" dict.
         """
-        resolved_inputs = []
+        resolved_inputs: list[str | None] = []
         for input_ in inputs:
             # handle null inputs
             if not input_:

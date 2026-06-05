@@ -100,7 +100,7 @@ class IndicatorAttributes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[IndicatorAttribute]:
         """Return CM objects."""
-        return self.iterate(base_class=IndicatorAttribute)  # type: ignore
+        return self.iterate(base_class=IndicatorAttribute)
 
     @property
     def _api_endpoint(self) -> str:

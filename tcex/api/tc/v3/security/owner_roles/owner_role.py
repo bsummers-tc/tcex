@@ -73,7 +73,7 @@ class OwnerRoles(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[OwnerRole]:
         """Return CM objects."""
-        return self.iterate(base_class=OwnerRole)  # type: ignore
+        return self.iterate(base_class=OwnerRole)
 
     @property
     def _api_endpoint(self) -> str:

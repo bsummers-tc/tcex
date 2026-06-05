@@ -73,7 +73,7 @@ class Users(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[User]:
         """Return CM objects."""
-        return self.iterate(base_class=User)  # type: ignore
+        return self.iterate(base_class=User)
 
     @property
     def _api_endpoint(self) -> str:

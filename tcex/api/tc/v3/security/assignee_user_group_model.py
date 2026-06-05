@@ -14,7 +14,7 @@ class AssigneeUserGroupModel(
 ):
     """Assignee Model"""
 
-    name: str | None = Field(  # type: ignore
+    name: str | None = Field(
         None,
         frozen=True,
         description='The **name** for the User_Group.',

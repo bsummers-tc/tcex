@@ -160,7 +160,7 @@ class CaseModel(
         title='detectionOverdue',
         validate_default=True,
     )
-    id: int | None = Field(  # type: ignore
+    id: int | None = Field(
         default=None,
         description='The ID of the item.',
         title='id',
@@ -313,63 +313,63 @@ class CaseModel(
     @classmethod
     def _validate_artifacts(cls, v):
         if not v:
-            return ArtifactsModel()  # type: ignore
+            return ArtifactsModel()
         return v
 
     @field_validator('assignee', mode='before')
     @classmethod
     def _validate_assignee(cls, v):
         if not v:
-            return AssigneeModel()  # type: ignore
+            return AssigneeModel()
         return v
 
     @field_validator('attributes', mode='before')
     @classmethod
     def _validate_case_attributes(cls, v):
         if not v:
-            return CaseAttributesModel()  # type: ignore
+            return CaseAttributesModel()
         return v
 
     @field_validator('associated_cases', 'related', mode='before')
     @classmethod
     def _validate_cases(cls, v):
         if not v:
-            return CasesModel()  # type: ignore
+            return CasesModel()
         return v
 
     @field_validator('associated_groups', mode='before')
     @classmethod
     def _validate_groups(cls, v):
         if not v:
-            return GroupsModel()  # type: ignore
+            return GroupsModel()
         return v
 
     @field_validator('associated_indicators', mode='before')
     @classmethod
     def _validate_indicators(cls, v):
         if not v:
-            return IndicatorsModel()  # type: ignore
+            return IndicatorsModel()
         return v
 
     @field_validator('notes', mode='before')
     @classmethod
     def _validate_notes(cls, v):
         if not v:
-            return NotesModel()  # type: ignore
+            return NotesModel()
         return v
 
     @field_validator('tags', mode='before')
     @classmethod
     def _validate_tags(cls, v):
         if not v:
-            return TagsModel()  # type: ignore
+            return TagsModel()
         return v
 
     @field_validator('tasks', mode='before')
     @classmethod
     def _validate_tasks(cls, v):
         if not v:
-            return TasksModel()  # type: ignore
+            return TasksModel()
         return v
 
     @field_validator(
@@ -383,28 +383,28 @@ class CaseModel(
     @classmethod
     def _validate_user(cls, v):
         if not v:
-            return UserModel()  # type: ignore
+            return UserModel()
         return v
 
     @field_validator('user_access', mode='before')
     @classmethod
     def _validate_users(cls, v):
         if not v:
-            return UsersModel()  # type: ignore
+            return UsersModel()
         return v
 
     @field_validator('workflow_events', mode='before')
     @classmethod
     def _validate_workflow_events(cls, v):
         if not v:
-            return WorkflowEventsModel()  # type: ignore
+            return WorkflowEventsModel()
         return v
 
     @field_validator('workflow_template', mode='before')
     @classmethod
     def _validate_workflow_template(cls, v):
         if not v:
-            return WorkflowTemplateModel()  # type: ignore
+            return WorkflowTemplateModel()
         return v
 
 

@@ -79,7 +79,7 @@ class ArtifactTypes(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[ArtifactType]:
         """Return CM objects."""
-        return self.iterate(base_class=ArtifactType)  # type: ignore
+        return self.iterate(base_class=ArtifactType)
 
     @property
     def _api_endpoint(self) -> str:

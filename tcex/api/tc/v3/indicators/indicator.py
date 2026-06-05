@@ -136,7 +136,7 @@ class Indicator(ObjectABC):
         for indicator in self._iterate_over_sublist(Indicators):  # type: ignore
             if indicator.model.id == self.model.id:
                 continue
-            yield indicator  # type: ignore
+            yield indicator
 
     @property
     def custom_associations(self) -> Generator[Self, None, None]:
@@ -298,7 +298,7 @@ class Indicators(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Indicator]:
         """Return CM objects."""
-        return self.iterate(base_class=Indicator)  # type: ignore
+        return self.iterate(base_class=Indicator)
 
     @property
     def _api_endpoint(self) -> str:

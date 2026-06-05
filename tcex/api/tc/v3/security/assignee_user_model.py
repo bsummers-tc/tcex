@@ -14,7 +14,7 @@ class AssigneeUserModel(
 ):
     """Assignee Model"""
 
-    user_name: str = Field(  # type: ignore
+    user_name: str = Field(
         ...,
         frozen=True,
         description='The **user name** for the User.',

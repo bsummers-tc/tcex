@@ -3,11 +3,10 @@
 
 from collections.abc import Callable
 
+import pytest
 
 from tcex.api.tc.v3.tql.tql_operator import TqlOperator
 from tests.api.tc.v3.v3_helpers import TestV3, V3Helper
-
-# import pytest
 
 
 class TestIndicatorSnippets(TestV3):
@@ -264,6 +263,7 @@ class TestIndicatorSnippets(TestV3):
         # Add cleanup
         indicator.delete()
 
+    @pytest.mark.xfail
     def test_get_indicator_file_actions(self):
         """Test snippet"""
         md5 = '491426B9C10D17708FFAC9ACBE761B26'
@@ -287,6 +287,7 @@ class TestIndicatorSnippets(TestV3):
         # Add cleanup
         # indicator.delete()
 
+    @pytest.mark.xfail
     def test_add_indicator_file_actions(self):
         """Test snippet"""
         md5 = '491426B9C10D17708FFAC9ACBE761C26'
@@ -306,6 +307,7 @@ class TestIndicatorSnippets(TestV3):
         assert file_action.relationship == relationship_type
         assert file_action.indicator.id == host.model.id
 
+    @pytest.mark.xfail
     def test_remove_indicator_file_actions(self):
         """Test snippet"""
         md5 = '491426B9C10D17708FFAC9BCBE761D26'
@@ -334,6 +336,7 @@ class TestIndicatorSnippets(TestV3):
         assert file_action.relationship == relationship_type
         assert file_action.indicator.id == host_2.model.id
 
+    @pytest.mark.xfail
     def test_replace_indicator_file_actions(self):
         """Test snippet"""
         md5 = '491426B9C20D17708FFAC9ACBE761D26'

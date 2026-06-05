@@ -159,7 +159,6 @@ pygrep
 pylance
 pylint
 pyproject
-pyright
 pytest
 pythonhosted
 pytz

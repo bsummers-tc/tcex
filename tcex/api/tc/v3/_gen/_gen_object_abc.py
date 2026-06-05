@@ -1,6 +1,7 @@
 """TcEx Framework Module"""
 
 from abc import ABC
+from typing import Any
 
 from tcex.api.tc.v3._gen._gen_abc import GenerateABC
 from tcex.api.tc.v3._gen._gen_args_abc import GenerateArgsABC
@@ -18,8 +19,9 @@ class GenerateObjectABC(GenerateABC, ABC):
         """Initialize instance properties."""
         super().__init__(type_)
 
-        # properties
-        self.requirements = {
+        # properties; buckets hold heterogeneous entries (plain import strings vs. module/imports
+        # dicts), so type the values as list[Any] for the dynamically-built accumulator.
+        self.requirements: dict[str, list[Any]] = {
             'standard library': [],
             'third-party': [],
             'first-party': [
@@ -143,11 +145,7 @@ class GenerateObjectABC(GenerateABC, ABC):
                     f'Iterator[{self.type_.singular().pascal_case()}]:'
                 ),
                 f'{self.i2}"""Return CM objects."""',
-                (
-                    f'{self.i2}return self.iterate(base_class='
-                    f'{self.type_.singular().pascal_case()})'
-                    '  # type: ignore'
-                ),
+                (f'{self.i2}return self.iterate(base_class={self.type_.singular().pascal_case()})'),
                 '',
                 '',
             ]
@@ -510,17 +508,20 @@ class GenerateObjectABC(GenerateABC, ABC):
             f'{self.i2}if not isinstance(data, list):',
             f'{self.i3}data = [data]',
             '',
-            f'{self.i2}if all(isinstance(item, ({model_class} | ObjectABC)) for item in data):'
+            # the runtime all(isinstance(...)) guards establish the element type, but ty cannot
+            # narrow through them; the targeted ignores below reflect correct-but-uninferable code.
+            f'{self.i2}if all(isinstance(item, ({model_class} | ObjectABC)) for item in data):',
             f'{self.i3}transformed_data = data',
-            f'{self.i2}elif all(isinstance(item, dict) for item in data):'
-            f'{self.i3}transformed_data = [{model_class}(**d) for d in data]',
+            f'{self.i2}elif all(isinstance(item, dict) for item in data):',
+            f'{self.i3}transformed_data = '
+            f'[{model_class}(**d) for d in data]  # ty: ignore[invalid-argument-type]',
             f'{self.i2}else:',
             f'{self.i3}ex_msg = "Invalid data to replace_{model_type.singular()}"',
             f'{self.i3}raise ValueError(ex_msg)',
             '',
             '',
             f'{self.i2}for item in transformed_data:',
-            f'{self.i3}item._staged = True  # noqa: SLF001',
+            f'{self.i3}item._staged = True  # ty: ignore[unresolved-attribute]  # noqa: SLF001',
             '',
             f'{self.i2}self.model.{model_reference} = transformed_data  # type: ignore',
             '',
@@ -707,7 +708,7 @@ class GenerateObjectABC(GenerateABC, ABC):
                 # f'{self.i2}self.model.assignee._staged = True
                 # f'{self.i2}self.model.assignee.type = type',
                 # pylance shows a warning on type here, but it in not handling inheritance properly.
-                # f'{self.i2}self.model.assignee.data = data  # type: ignore',
+                # (dead template line removed; it previously embedded a type-ignore directive)
                 f'{self.i2}self.model.assignee.data._staged = True  # type: ignore  # noqa: SLF001',
                 '',
                 '',
@@ -813,7 +814,7 @@ class GenerateObjectABC(GenerateABC, ABC):
             _code.extend(
                 [
                     f'{self.i4}continue',
-                    f'{self.i3}yield {type_.singular()}  # type: ignore',
+                    f'{self.i3}yield {type_.singular()}',
                 ]
             )
         else:
@@ -1156,6 +1157,6 @@ class GenerateObjectABC(GenerateABC, ABC):
     ):
         """Return the requirements code."""
         class_string = ', '.join(classes)
-        self.requirements[from_].append(  # type: ignore
+        self.requirements[from_].append(
             f'from {self.tap(type_)}.{type_.plural()}.{filename} import {class_string}'
         )

@@ -38,9 +38,14 @@ temp
 .vs
 .vscode
 nbproject
-.claude
 *.swp
 *.vim
+
+#-------------------------------------------------
+# Claude Exclusions
+#-------------------------------------------------
+.claude/plans/*
+.claude/settings.local.json
 
 #-------------------------------------------------
 # Module Specific Exclusions
@@ -66,3 +71,6 @@ TODO.md
 codeql-tcex
 install.json
 tcex_cache
+tests/indicators-*.db
+tests/groups-*.db
+tests/test_write_temp_*

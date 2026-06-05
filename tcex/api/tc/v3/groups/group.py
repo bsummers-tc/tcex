@@ -161,7 +161,7 @@ class Group(ObjectABC):
         for group in self._iterate_over_sublist(Groups):  # type: ignore
             if group.model.id == self.model.id:
                 continue
-            yield group  # type: ignore
+            yield group
 
     @property
     def associated_indicators(self) -> Generator['Indicator', None, None]:
@@ -329,7 +329,7 @@ class Groups(ObjectCollectionABC):
 
     def __iter__(self) -> Iterator[Group]:
         """Return CM objects."""
-        return self.iterate(base_class=Group)  # type: ignore
+        return self.iterate(base_class=Group)
 
     @property
     def _api_endpoint(self) -> str:
