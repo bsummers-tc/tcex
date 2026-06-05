@@ -85,7 +85,7 @@ class GenerateModelABC(GenerateABC, ABC):
         )
 
     # TODO: [low] bsummers - research combining this method with parent method
-    def _format_description(self, description: str, length: int) -> str:
+    def _format_model_description(self, description: str, length: int) -> str:
         """Format description for field."""
         # fix descriptions coming from core API endpoint
         if description[-1] not in ('.', '?', '!'):
@@ -361,7 +361,7 @@ class GenerateModelABC(GenerateABC, ABC):
 
             # description - Use the TC provided description
             # if available, otherwise use a default format.
-            field_description = self._format_description(
+            field_description = self._format_model_description(
                 (
                     prop.description
                     or (

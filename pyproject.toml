@@ -165,8 +165,8 @@ profile = "black"
 # Configuration for ty type checker
 # https://docs.astral.sh/ty/reference/configuration/
 [tool.ty.environment]
-python-version = "3.11"
 python-platform = "linux"
+python-version = "3.11"
 
 [tool.ty.src]
 exclude = [
@@ -176,12 +176,6 @@ exclude = [
   "tcex/api/tc/v2",
   "tests",
 ]
-
-[tool.ty.rules]
-# Override checks intentionally disabled (carried over from the prior pyright
-# config: reportIncompatibleMethodOverride / reportIncompatibleVariableOverride).
-invalid-method-override = "ignore"
-invalid-attribute-override = "ignore"
 
 # Configuration for pytest test runner
 [tool.pytest.ini_options]
