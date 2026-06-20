@@ -5,7 +5,7 @@
 import json
 import logging
 from inspect import signature
-from typing import Literal
+from typing import Any, Literal
 
 # first-party
 from tcex.api.tc.ti_transform.model.transform_model import (
@@ -49,9 +49,9 @@ class LoadTransform:
                     **self._transform_data(self._normalize(mapping_json))
                 )
 
-    def _normalize(self, data: dict) -> dict:
+    def _normalize(self, data: dict) -> dict[str, Any]:
         """Normalize the transform data."""
-        normalized = {}
+        normalized: dict[str, Any] = {}
         for key, value in data.items():
             normalized_key = self.util.camel_to_snake(key)
             if isinstance(value, dict):
@@ -65,9 +65,9 @@ class LoadTransform:
 
         return normalized
 
-    def _transform_data(self, body: dict) -> dict:
+    def _transform_data(self, body: dict[str, Any]) -> dict:
         """Transform the data."""
-        fields_copy = {**body}
+        fields_copy: dict[str, Any] = {**body}
         fields_copy.pop('associated_indicators', None)
 
         transform_data = {}

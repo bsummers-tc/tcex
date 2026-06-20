@@ -38,6 +38,7 @@ class TestEmbedded:
                 'variable': '#App:0001:string.8!String',
                 'data': r'Json Reserved Characters: \\\\" \n \r \f \b \t \\',
             },
+            {'variable': '#Global:0:gbl.playbook.sessionid!String', 'data': 'abc123-session-id'},
         ]
         for i in string_inputs:
             playbook.create.string(i['variable'], i['data'], when_requested=False)
@@ -169,6 +170,18 @@ class TestEmbedded:
             ),
             # StringArray Test: String in StringArray
             ('#App:0001:array.1!StringArray', ['two', 'three']),
+            # Global Test: session id direct
+            ('#Global:0:gbl.playbook.sessionid!String', 'abc123-session-id'),
+            # Global Test: session id embedded in String
+            (
+                'session id is #Global:0:gbl.playbook.sessionid!String today',
+                'session id is abc123-session-id today',
+            ),
+            # Global Test: session id and String in String
+            (
+                'session #Global:0:gbl.playbook.sessionid!String with #App:0001:string.1!String',
+                'session abc123-session-id with DATA',
+            ),
         ],
     )
     def test_embedded_read_string(self, embedded_value: str, expected: Any, tcex: TcEx):
