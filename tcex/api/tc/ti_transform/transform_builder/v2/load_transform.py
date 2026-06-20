@@ -4,7 +4,7 @@
 import json
 import logging
 from inspect import signature
-from typing import Literal
+from typing import Any, Literal
 
 from tcex.api.tc.ti_transform.model.transform_model import (
     GroupTransformModel,
@@ -66,9 +66,9 @@ class LoadTransform:
 
         return normalized
 
-    def _transform_data(self, body: dict) -> dict:
+    def _transform_data(self, body: dict[str, Any]) -> dict:
         """Transform the data."""
-        fields_copy = {**body}
+        fields_copy: dict[str, Any] = {**body}
         fields_copy.pop('associated_indicators', None)
 
         transform_data = {}
